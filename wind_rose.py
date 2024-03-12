@@ -4,6 +4,7 @@ from windrose import WindroseAxes
 from matplotlib import pyplot as plt
 import matplotlib.cm as cm
 import matplotlib as mpl
+import numpy as np
 
 mpl.rcParams.update({'font.size': 15})
 
@@ -29,7 +30,7 @@ print('end')
 """
 # Summer
 ax = WindroseAxes.from_ax(figsize=(10, 10))
-ax.bar(JJA_df.WD, JJA_df.WS, normed=True, opening=0.8, edgecolor='white', cmap=cm.inferno)
+ax.bar(JJA_df.WD, JJA_df.WS, normed=True, opening=0.8, edgecolor='white', cmap=cm.inferno, bins=np.arange(0, 12, 2))
 ax.set_legend(loc='upper left', bbox_to_anchor=(0.58, 0.5))
 plt.title('Summer')
 plt.savefig(current_dir + 'summer_wind.png', bbox_inches='tight', dpi=300)
@@ -38,7 +39,7 @@ plt.savefig(current_dir + 'summer_wind.png', bbox_inches='tight', dpi=300)
 """
 # Winter
 ax = WindroseAxes.from_ax(figsize=(10, 10))
-ax.bar(DJF_df.WD, DJF_df.WS, normed=True, opening=0.8, edgecolor='white', cmap=cm.inferno)
+ax.bar(DJF_df.WD, DJF_df.WS, normed=True, opening=0.8, edgecolor='white', cmap=cm.inferno, bins=np.arange(0, 12, 2))
 ax.set_legend(loc='upper left', bbox_to_anchor=(0.18, 0.5))
 plt.title('Winter')
 plt.savefig(current_dir + 'winter_wind.png', bbox_inches='tight', dpi=300)
