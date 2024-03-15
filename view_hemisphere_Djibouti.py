@@ -4,6 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+import matplotlib
+
+matplotlib.use('TkAgg')
+
 # original photo links: https://www.istockphoto.com/photo/fisheye-perspective-of-trees-in-forest-gm141468118-78244507
 # https://www.istockphoto.com/photo/around-on-sky-taken-with-a-fisheye-lens-to-give-the-special-plate-effect-the-fresh-gm1250118657-364512394
 
