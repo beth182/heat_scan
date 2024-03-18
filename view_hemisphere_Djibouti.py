@@ -13,7 +13,7 @@ matplotlib.use('TkAgg')
 
 save_path = os.getcwd().replace('\\', '/') + '/'
 
-background = 'dark'
+background = 'light'
 
 tz = 'Africa/Djibouti'
 lat, lon = 11.588016341753459, 43.14789764878434
@@ -48,7 +48,7 @@ for date in pd.to_datetime(datesOfInterest):
     label = dateLabels[np.where(pd.to_datetime(datesOfInterest) == date)[0][0]]
     col = datecolors[np.where(pd.to_datetime(datesOfInterest) == date)[0][0]]
     linet = datelinetype[np.where(pd.to_datetime(datesOfInterest) == date)[0][0]]
-    ax.plot(np.radians(solpos.azimuth).values, solpos.apparent_zenith.values, label=label, c=col, linestyle=linet,
+    ax.plot(np.radians(solpos.azimuth).values, solpos.apparent_zenith.values, c=col, linestyle=linet,
             linewidth=3)
 
     # just hours
@@ -72,10 +72,20 @@ plt.setp(ax.get_yticklabels()[::2], visible=False)
 
 ax.set_xticklabels(['N', '', 'E', '', 'S', '', 'W', ''], color=label_c, fontsize=20)
 
-# Add shared legend at position in loc
-handles, labels = ax.get_legend_handles_labels()
-# ax.figure.legend(handles, labels, ncol=2, fontsize=9, loc='lower left')
+import matplotlib.patches as mpatches
+from matplotlib.lines import Line2D
 
+green_patch = mpatches.Patch(color='green', label='Trees')
+magenta_patch = mpatches.Patch(color='magenta', label='Open')
+
+red_patch = mpatches.Patch(color='red', label='Summer')
+blue_patch = mpatches.Patch(color='blue', label='Winter')
+
+present_line = Line2D([0], [0], label='Present Climate', color='k', linestyle='-')
+future_line = Line2D([0], [0], label='Future Climate', color='k', linestyle=':')
+
+# ax.figure.legend(handles=[green_patch, magenta_patch, red_patch, blue_patch, present_line, future_line], ncol=3,
+#                  loc='lower left', fontsize=20, framealpha=1)
 
 ax.spines['polar'].set_color(label_c)
 ax.spines['polar'].set_linewidth(6)
