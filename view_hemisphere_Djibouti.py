@@ -13,7 +13,7 @@ matplotlib.use('TkAgg')
 
 save_path = os.getcwd().replace('\\', '/') + '/'
 
-background = 'light'
+background = 'dark'
 
 tz = 'Africa/Djibouti'
 lat, lon = 11.588016341753459, 43.14789764878434
@@ -26,6 +26,9 @@ solpos = solpos.loc[solpos['apparent_elevation'] > 0, :]
 
 if background == 'dark':
     plt.style.use('dark_background')
+    label_c = 'green'
+else:
+    label_c = 'magenta'
 
 fig = plt.figure(figsize=(12, 6))
 # ax = plt.subplot(1, 1, 1, projection='polar')
@@ -67,11 +70,15 @@ ax.set_rlabel_position(0)
 # ax.set_yticks([20,40,60,80])
 plt.setp(ax.get_yticklabels()[::2], visible=False)
 
-ax.set_xticklabels(['N', '', 'E', '', 'S', '', 'W', ''], color='k')
+ax.set_xticklabels(['N', '', 'E', '', 'S', '', 'W', ''], color=label_c, fontsize=20)
 
 # Add shared legend at position in loc
 handles, labels = ax.get_legend_handles_labels()
 # ax.figure.legend(handles, labels, ncol=2, fontsize=9, loc='lower left')
+
+
+ax.spines['polar'].set_color(label_c)
+ax.spines['polar'].set_linewidth(6)
 
 fig.tight_layout()
 fig.savefig(save_path + background + '_solarpath.png', dpi=300, transparent=True)
