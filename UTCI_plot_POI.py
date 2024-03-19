@@ -108,12 +108,51 @@ for poifile in poifiles:
                 temp_color = 'magenta'
     # Summer days
     if poi.DOY.to_numpy()[0] > 90:
-        ax1.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
-                 marker=temp_mark)
+
+        # OPEN HISTORICAL
+        if 'open' in temp_label and 'average' in temp_label:
+            ax1.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
+                     marker=temp_mark, alpha=0)
+
+        # OPEN FUTURE
+        if 'open' in temp_label and 'hot' in temp_label:
+            ax1.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
+                     marker=temp_mark, alpha=0)
+
+        # TREE HISTORICAL
+        if 'tree' in temp_label and 'average' in temp_label:
+            ax1.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
+                     marker=temp_mark, alpha=1)
+
+        # TREE FUTURE
+        if 'tree' in temp_label and 'hot' in temp_label:
+            ax1.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
+                     marker=temp_mark, alpha=1)
+
+
+
     # Winter days
     else:
-        ax2.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
-                 marker=temp_mark)
+
+        # OPEN HISTORICAL
+        if 'open' in temp_label and 'average' in temp_label:
+            ax2.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
+                     marker=temp_mark, alpha=0)
+
+        # OPEN FUTURE
+        if 'open' in temp_label and 'hot' in temp_label:
+            ax2.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
+                     marker=temp_mark, alpha=0)
+
+        # TREE HISTORICAL
+        if 'tree' in temp_label and 'average' in temp_label:
+            ax2.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
+                     marker=temp_mark, alpha=1)
+
+        # TREE FUTURE
+        if 'tree' in temp_label and 'hot' in temp_label:
+            ax2.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
+                     marker=temp_mark, alpha=1)
 
 ax1.set_ylabel('UTCI ($^\circ$C)')
 ax1.set_ylim(10, 50)
@@ -121,7 +160,9 @@ ax1.set_xlim(6, 20)
 ax1.set_title('Summer')
 ax1.grid(True)
 
-ax1.legend()
+leg = ax1.legend()
+for lh in leg.legendHandles:
+    lh.set_alpha(1)
 
 ax2.set_ylim(10, 50)
 ax2.set_yticklabels([])
@@ -133,6 +174,6 @@ ax2.grid(True)
 fig.supxlabel('Hour', x=0.515, y=0.05)
 
 fig.tight_layout()
-fig.savefig(save_path + 'UTCI.png', dpi=300)
+fig.savefig(save_path + 'UTCI_V4.png', dpi=300)
 
 print('end')
