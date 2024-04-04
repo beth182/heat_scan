@@ -6,6 +6,8 @@ from shapely.geometry import Point
 import matplotlib.pyplot as plt
 import xarray as xr
 import gcsfs
+import numpy as np
+import rasterio
 
 import matplotlib
 
@@ -125,6 +127,7 @@ def cmip6_via_pangeo(plot=False):
     # last number, e.g. "20170706" is variable code, listed in the included pangeo-cmip6.csv file, and identified
     # using the table from the link:
     # https://pcmdi.llnl.gov/mips/cmip3/variableList.html#Table_A1f
+    # ToDo: make the variable flexible
     zstore = "gs://cmip6/CMIP6/HighResMIP/CMCC/CMCC-CM2-HR4/highresSST-present/r1i1p1f1/Amon/tas/gn/v20170706/"
 
     fs = gcsfs.GCSFileSystem(token='anon', access='read_only')
@@ -144,6 +147,47 @@ def cmip6_via_pangeo(plot=False):
     return ds
 
 
+def select_data(ds, closest_polygon, plot=False):
+    """
+    Function which grabs the data overlapping with a city boundary
+    :return:
+    """
+
+    assert len(list(ds.keys())) == 1
+    var_name = list(ds.keys())[0]
+
+    # ToDo: think about the time selection
+    # for now just use the first time
+    array = ds.tas.isel(time=0)
+
+    # Create a grid representing the dataset
+    grid_lons, grid_lats = np.meshgrid(array.lon, array.lat)
+
+    # Create a mask of the polygon
+    transform = rasterio.transform.from_bounds(array.lon[0], array.lat[-1], array.lon[-1], array.lat[0],
+                                               array.shape[1], array.shape[0])
+    mask = rasterio.features.geometry_mask([closest_polygon],
+                                           out_shape=(array.shape[0], array.shape[1]),
+                                           transform=transform,
+                                           all_touched=True,
+                                           invert=True)
+
+    # Apply the mask to the xarray dataset
+    masked_data = array.where(mask)
+
+    if plot:
+        # check w/ data: fig
+        fig = plt.figure(figsize=(8, 7))
+        ax = plt.subplot(1, 1, 1)
+        masked_data.plot(ax=ax)
+        polygon_df.plot(ax=ax)
+        gpd.GeoSeries([closest_polygon]).plot(ax=ax, facecolor='r')
+        # ax.scatter(point.x, point.y, c='k')
+
+    # Now `masked_data` contains only the values within or touching the polygon.
+    return masked_data
+
+
 if __name__ == "__main__":
     # define global city boundaries
     polygon_df = global_city_boundaries()
@@ -159,15 +203,16 @@ if __name__ == "__main__":
 
     closest_polygon = coord_polygon_overlap(point, polygon_df)
 
+    # some bs
+    if closest_polygon.type == 'MultiPolygon':
+        polylist = list(closest_polygon.geoms)
+        closest_polygon = polylist[0]
+
     # grab CMIP6 data
     ds = cmip6_via_pangeo()
 
-    # check w/ data: fig
-    fig = plt.figure(figsize=(8, 7))
-    ax = plt.subplot(1, 1, 1)
-    ds.tas.isel(time=0).plot(ax=ax)
-    polygon_df.plot(ax=ax)
-    gpd.GeoSeries([closest_polygon]).plot(ax=ax, facecolor='r')
-    ax.scatter(point.x, point.y, c='k')
+    masked_data = select_data(ds, closest_polygon)
+
+    val = np.nanmean(masked_data)
 
     print('end')
