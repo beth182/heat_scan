@@ -128,7 +128,10 @@ def cmip6_via_pangeo(plot=False):
     # using the table from the link:
     # https://pcmdi.llnl.gov/mips/cmip3/variableList.html#Table_A1f
     # ToDo: make the variable flexible
-    zstore = "gs://cmip6/CMIP6/HighResMIP/CMCC/CMCC-CM2-HR4/highresSST-present/r1i1p1f1/Amon/tas/gn/v20170706/"
+    # zstore = "gs://cmip6/CMIP6/HighResMIP/CMCC/CMCC-CM2-HR4/highresSST-present/r1i1p1f1/Amon/tas/gn/v20170706/"
+    # zstore = "gs://cmip6/CMIP6/HighResMIP/MOHC/HadGEM3-GC31-HM/highresSST-present/r1i1p1f1/Amon/tas/gn/v20170831/"
+    # zstore = "gs://cmip6/CMIP6/HighResMIP/MOHC/HadGEM3-GC31-HM/highresSST-present/r1i1p1f1/day/pr/gn/v20170831/"
+    zstore = "gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp585/r1i1p1f1/day/tasmax/gr1/v20180701/"
 
     fs = gcsfs.GCSFileSystem(token='anon', access='read_only')
     mapper = fs.get_mapper(zstore)

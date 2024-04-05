@@ -131,3 +131,4 @@ dmypy.json
 .idea/
 
 
+/heat_scan/LCR/pangeo-cmip6_searchable.xlsx
