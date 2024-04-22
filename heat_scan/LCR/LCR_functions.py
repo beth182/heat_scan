@@ -112,7 +112,7 @@ def coord_polygon_overlap(point, polygon_df, plot=False):
     return closest_polygon
 
 
-def cmip6_via_pangeo(plot=False):
+def cmip6_via_pangeo(zstore, plot=False):
     """
     Alternative way (to CCKP) of getting CMIP6 data: Suggested by Matthias.
     Analysis of Google Cloud CMIP6 data using Pangeo tools.
@@ -123,15 +123,12 @@ def cmip6_via_pangeo(plot=False):
     :return:
     """
 
+    # zstore info:
+    # ToDo: put in docstring
     # link provided by Matthias
     # last number, e.g. "20170706" is variable code, listed in the included pangeo-cmip6.csv file, and identified
     # using the table from the link:
     # https://pcmdi.llnl.gov/mips/cmip3/variableList.html#Table_A1f
-    # ToDo: make the variable flexible
-    # zstore = "gs://cmip6/CMIP6/HighResMIP/CMCC/CMCC-CM2-HR4/highresSST-present/r1i1p1f1/Amon/tas/gn/v20170706/"
-    # zstore = "gs://cmip6/CMIP6/HighResMIP/MOHC/HadGEM3-GC31-HM/highresSST-present/r1i1p1f1/Amon/tas/gn/v20170831/"
-    # zstore = "gs://cmip6/CMIP6/HighResMIP/MOHC/HadGEM3-GC31-HM/highresSST-present/r1i1p1f1/day/pr/gn/v20170831/"
-    zstore = "gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp585/r1i1p1f1/day/tasmax/gr1/v20180701/"
 
     fs = gcsfs.GCSFileSystem(token='anon', access='read_only')
     mapper = fs.get_mapper(zstore)
@@ -212,7 +209,7 @@ if __name__ == "__main__":
         closest_polygon = polylist[0]
 
     # grab CMIP6 data
-    ds = cmip6_via_pangeo()
+    ds = cmip6_via_pangeo(zstore='gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/Amon/tas/gr1/v20180701/')
 
     masked_data = select_data(ds, closest_polygon)
 
