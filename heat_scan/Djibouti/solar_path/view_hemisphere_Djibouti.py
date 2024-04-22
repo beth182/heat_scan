@@ -13,7 +13,8 @@ matplotlib.use('TkAgg')
 
 save_path = os.getcwd().replace('\\', '/') + '/'
 
-background = 'light'
+# background = 'light'
+background = 'dark'
 
 tz = 'Africa/Djibouti'
 lat, lon = 11.588016341753459, 43.14789764878434
@@ -34,11 +35,16 @@ fig = plt.figure(figsize=(12, 6))
 # ax = plt.subplot(1, 1, 1, projection='polar')
 ax = fig.add_subplot(1, 1, 1, projection='polar')
 
-datesOfInterest = ['2000-02-21', '2007-01-21', '1993-07-21', '2015-08-13']
-dateLabels = ['Average winter climate (future)', 'Average winter climate (present)', 'Average summer climate (present)',
-              'Average summer climate (future)']
-datecolors = ['blue', 'blue', 'red', 'red']
-datelinetype = [':', '-', '-', ':']
+# datesOfInterest = ['2000-02-21', '2007-01-21', '1993-07-21', '2015-08-13']
+# dateLabels = ['Average winter climate (future)', 'Average winter climate (present)', 'Average summer climate (present)',
+#               'Average summer climate (future)']
+# datecolors = ['blue', 'blue', 'red', 'red']
+# datelinetype = [':', '-', '-', ':']
+
+datesOfInterest = ['2007-01-21', '1993-07-21']
+dateLabels = ['Average winter climate (present)', 'Average summer climate (present)']
+datecolors = ['blue', 'red']
+datelinetype = ['-', '-']
 
 # draw individual days
 for date in pd.to_datetime(datesOfInterest):
