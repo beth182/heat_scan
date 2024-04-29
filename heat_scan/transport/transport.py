@@ -9,6 +9,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 
 from heat_scan.tools import pangeo_CMIP_funs
+from heat_scan.tools import constants
 
 # tasmax
 # r1i1p1f1
@@ -23,7 +24,7 @@ ds = pangeo_CMIP_funs.cmip6_via_pangeo(zstore=zstore)
 # plot data
 
 fig, ax = plt.subplots(1, figsize=(12, 12))
-deg_c = ds.tasmax.isel(time=0) - 273.15
+deg_c = ds.tasmax.isel(time=0) + constants.convert_kelvin
 deg_c.plot(ax=ax)
 m = Basemap()
 m.drawcoastlines()
