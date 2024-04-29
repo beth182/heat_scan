@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 
 matplotlib.use('TkAgg')
+matplotlib.rcParams.update({'font.size': 15})
 
 from heat_scan.tools import constants
 
@@ -65,7 +66,7 @@ def plt_straight_variable(ds, time=0):
     white_ocean(ax=ax)
 
 
-def plt_count_over_threshold(ds, threshold):
+def plt_count_over_threshold(ds, threshold, year, save_path):
     """
 
     :return:
@@ -75,7 +76,24 @@ def plt_count_over_threshold(ds, threshold):
     high_vals = xr.where(ds > threshold, 1, 0)  # set all temps over threshold = 1; others to 0
     summed_vals = high_vals.sum(dim='time')
 
+    # replace any 0 values with nan
+    summed_vals = summed_vals.where(summed_vals > 0)
+
     fig, ax = plt.subplots(1, figsize=(15, 12))
+
+    # set colourbar
+    cmap = matplotlib.cm.seismic
+    # make nan black
+    cmap.set_bad('black', 1.)
+
     # ToDo: make variable flexable
-    summed_vals.tasmax.plot(ax=ax, cmap='gnuplot')
+    summed_vals.tasmax.plot(ax=ax, cmap=cmap, cbar_kwargs={'label': "# of days", "location": "bottom", 'pad': -0.2}, vmin=1, vmax=365)
     white_ocean(ax=ax)
+
+    plt.title('Number of days in ' + str(year) + ' where Daily Maximum Near-Surface Air Temperature > ' + str(
+        threshold - constants.convert_kelvin) + '$^{\circ}$C')
+
+    ax.xaxis.set_visible(False)
+    ax.yaxis.set_visible(False)
+
+    plt.savefig(save_path + '/plots/' + 'days_over_' + str(int(threshold - constants.convert_kelvin)) + '_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)

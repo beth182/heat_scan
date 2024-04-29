@@ -1,14 +1,10 @@
-import xarray as xr
-import numpy as np
-
-import matplotlib.pyplot as plt
-import matplotlib
-
-matplotlib.use('TkAgg')
+import os
 
 from heat_scan.tools import pangeo_CMIP_funs
 from heat_scan.tools import constants
 from heat_scan.transport import plotting_funs
+
+save_path = os.getcwd().replace('\\', '/') + '/'
 
 # tasmax
 # r1i1p1f1
@@ -25,18 +21,15 @@ ds = pangeo_CMIP_funs.cmip6_via_pangeo(zstore=zstore)
 # plotting_funs.plt_straight_variable(ds, 210)
 
 
-
 # Count of days where variable is over a given threshold
 
 # get data from a given year
-ds_2015 = ds.sel(time=ds.time.dt.year.isin([2015]))
+year = 2050
+ds_2015 = ds.sel(time=ds.time.dt.year.isin([year]))
 
 # define threshold
-threshold_temp = 15 + constants.convert_kelvin
+threshold_temp = 30 + constants.convert_kelvin
 
-plotting_funs.plt_count_over_threshold(ds=ds_2015, threshold=threshold_temp)
+plotting_funs.plt_count_over_threshold(ds=ds_2015, threshold=threshold_temp, year=year, save_path=save_path)
 
-# plotting_funs.plt_straight_variable(ds_2015, 210)
 print('end')
-
-
