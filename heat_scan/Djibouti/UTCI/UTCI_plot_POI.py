@@ -1,11 +1,9 @@
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 import matplotlib as mpl
-# import seaborn as sns
 import glob
 import os
+from matplotlib.lines import Line2D
 
 mpl.use('TkAgg')
 
@@ -112,12 +110,12 @@ for poifile in poifiles:
         # OPEN HISTORICAL
         if 'open' in temp_label and 'average' in temp_label:
             ax1.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
-                     marker=temp_mark, alpha=0)
+                     marker=temp_mark, alpha=1)
 
         # OPEN FUTURE
         if 'open' in temp_label and 'hot' in temp_label:
             ax1.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
-                     marker=temp_mark, alpha=0)
+                     marker=temp_mark, alpha=1)
 
         # TREE HISTORICAL
         if 'tree' in temp_label and 'average' in temp_label:
@@ -137,12 +135,12 @@ for poifile in poifiles:
         # OPEN HISTORICAL
         if 'open' in temp_label and 'average' in temp_label:
             ax2.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
-                     marker=temp_mark, alpha=0)
+                     marker=temp_mark, alpha=1)
 
         # OPEN FUTURE
         if 'open' in temp_label and 'hot' in temp_label:
             ax2.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
-                     marker=temp_mark, alpha=0)
+                     marker=temp_mark, alpha=1)
 
         # TREE HISTORICAL
         if 'tree' in temp_label and 'average' in temp_label:
@@ -154,26 +152,33 @@ for poifile in poifiles:
             ax2.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
                      marker=temp_mark, alpha=1)
 
-ax1.set_ylabel('UTCI ($^\circ$C)')
+ax1.set_ylabel('Universal Thermal Climate Index ($^\circ$C)')
 ax1.set_ylim(10, 50)
 ax1.set_xlim(6, 20)
-ax1.set_title('Summer')
+ax1.set_title('Summer', c='red')
 ax1.grid(True)
 
-leg = ax1.legend()
-for lh in leg.legendHandles:
-    lh.set_alpha(1)
+# call legend according to pre-defined labels
+# leg = ax1.legend()
+# for lh in leg.legendHandles:
+#     lh.set_alpha(1)
+
+# manually create legend
+# line_historical = Line2D([0], [0], color='k', linestyle='-')
+# line_future = Line2D([0], [0], color='k', linestyle=':')
+# ax1.legend(handles=[line_historical, line_future], labels= ['Historical', 'Future'])
 
 ax2.set_ylim(10, 50)
 ax2.set_yticklabels([])
 ax2.set_xlim(6, 20)
-ax2.set_title('Winter')
+ax2.set_title('Winter', c='blue')
 ax2.grid(True)
 
 # Shared xlabel
 fig.supxlabel('Hour', x=0.515, y=0.05)
 
 fig.tight_layout()
-fig.savefig(save_path + 'UTCI_V4.png', dpi=300)
+# fig.savefig(save_path + 'UTCI_V4.png', dpi=300)
+fig.savefig(save_path + 'UTCI.png', dpi=300)
 
 print('end')
