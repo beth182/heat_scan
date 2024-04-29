@@ -1,15 +1,14 @@
 import xarray as xr
 import numpy as np
 
-from mpl_toolkits.basemap import Basemap, maskoceans
 import matplotlib.pyplot as plt
-from matplotlib.patches import Path, PathPatch
 import matplotlib
 
 matplotlib.use('TkAgg')
 
 from heat_scan.tools import pangeo_CMIP_funs
 from heat_scan.tools import constants
+from heat_scan.transport import plotting_funs
 
 # tasmax
 # r1i1p1f1
@@ -22,32 +21,22 @@ zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/day/t
 ds = pangeo_CMIP_funs.cmip6_via_pangeo(zstore=zstore)
 
 # plot data
+# straight variable at a given time
+# plotting_funs.plt_straight_variable(ds, 210)
 
-fig, ax = plt.subplots(1, figsize=(12, 12))
-deg_c = ds.tasmax.isel(time=0) + constants.convert_kelvin
-deg_c.plot(ax=ax)
-m = Basemap()
-m.drawcoastlines()
 
-# making the ocean white
-# getting the limits of the map:
-x0, x1 = ax.get_xlim()
-y0, y1 = ax.get_ylim()
-map_edges = np.array([[x0, y0], [x1, y0], [x1, y1], [x0, y1]])
-# getting all polygons used to draw the coastlines of the map
-polys = [p.boundary for p in m.landpolygons]
-# combining with map edges
-polys = [map_edges] + polys[:]
-# creating a PathPatch
-codes = [
-    [Path.MOVETO] + [Path.LINETO for p in p[1:]]
-    for p in polys
-]
-polys_lin = [v for p in polys for v in p]
-codes_lin = [c for cs in codes for c in cs]
-path = Path(polys_lin, codes_lin)
-patch = PathPatch(path, facecolor='white', lw=0)
-# masking the data:
-ax.add_patch(patch)
 
+# Count of days where variable is over a given threshold
+
+# get data from a given year
+ds_2015 = ds.sel(time=ds.time.dt.year.isin([2015]))
+
+# define threshold
+threshold_temp = 15 + constants.convert_kelvin
+
+plotting_funs.plt_count_over_threshold(ds=ds_2015, threshold=threshold_temp)
+
+# plotting_funs.plt_straight_variable(ds_2015, 210)
 print('end')
+
+
