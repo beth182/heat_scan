@@ -13,6 +13,11 @@ save_path = os.getcwd().replace('\\', '/') + '/'
 # ssp245
 # day
 zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/day/tasmax/gr1/v20180701/'
+# zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp585/r1i1p1f1/day/tasmax/gr1/v20180701/'
+
+# zstore = 'gs://cmip6/CMIP6/ScenarioMIP/CCCma/CanESM5/ssp245/r1i1p2f1/day/tasmax/gn/v20190429/'
+
+# zstore = 'gs://cmip6/CMIP6/ScenarioMIP/BCC/BCC-CSM2-MR/ssp245/r1i1p1f1/day/tasmax/gn/v20190318/'
 
 ds = pangeo_CMIP_funs.cmip6_via_pangeo(zstore=zstore)
 
@@ -24,7 +29,10 @@ ds = pangeo_CMIP_funs.cmip6_via_pangeo(zstore=zstore)
 # Count of days where variable is over a given threshold
 
 # get data from a given year
+# year = 2100
 year = 2050
+# year = 2015
+
 ds_2015 = ds.sel(time=ds.time.dt.year.isin([year]))
 
 # define threshold

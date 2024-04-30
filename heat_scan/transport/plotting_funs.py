@@ -82,7 +82,7 @@ def plt_count_over_threshold(ds, threshold, year, save_path):
     fig, ax = plt.subplots(1, figsize=(15, 12))
 
     # set colourbar
-    cmap = matplotlib.cm.seismic
+    cmap = matplotlib.cm.plasma
     # make nan black
     cmap.set_bad('black', 1.)
 
@@ -97,3 +97,5 @@ def plt_count_over_threshold(ds, threshold, year, save_path):
     ax.yaxis.set_visible(False)
 
     plt.savefig(save_path + '/plots/' + 'days_over_' + str(int(threshold - constants.convert_kelvin)) + '_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)
+
+    print('end')
