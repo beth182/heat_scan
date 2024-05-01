@@ -36,3 +36,34 @@ def cmip6_via_pangeo(zstore, plot=False):
         ds.tas.isel(time=0).plot()
 
     return ds
+
+
+def main_find_CMIP(year=None):
+    """
+
+    :param save_path:
+    :return:
+    """
+    # ToDo: docstring here
+
+    # ToDo: make function to search the csv for user's choices here - where the zstore is returned
+
+    # tasmax
+    # r1i1p1f1
+    # NOAA-GFDL
+    # ScenarioMIP
+    # ssp245
+    # day
+    zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/day/tasmax/gr1/v20180701/'
+    # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp585/r1i1p1f1/day/tasmax/gr1/v20180701/'
+    # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/CCCma/CanESM5/ssp245/r1i1p2f1/day/tasmax/gn/v20190429/'
+    # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/BCC/BCC-CSM2-MR/ssp245/r1i1p1f1/day/tasmax/gn/v20190318/'
+
+    # find the dataset
+    ds = cmip6_via_pangeo(zstore=zstore)
+
+    # if there is a target year, subset the dataset by that year
+    if year != None:
+        ds = ds.sel(time=ds.time.dt.year.isin([year]))
+
+    return ds

@@ -5,58 +5,24 @@ from heat_scan.tools import constants
 from heat_scan.transport import plotting_funs
 
 
-def main_find_CMIP(year=None):
-    """
-
-    :param save_path:
-    :return:
-    """
-    # ToDo: function to search the csv for user's choices here
-
-    # where the zstore is returned
-
-    # tasmax
-    # r1i1p1f1
-    # NOAA-GFDL
-    # ScenarioMIP
-    # ssp245
-    # day
-    zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/day/tasmax/gr1/v20180701/'
-    # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp585/r1i1p1f1/day/tasmax/gr1/v20180701/'
-    # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/CCCma/CanESM5/ssp245/r1i1p2f1/day/tasmax/gn/v20190429/'
-    # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/BCC/BCC-CSM2-MR/ssp245/r1i1p1f1/day/tasmax/gn/v20190318/'
-
-    # find the dataset
-    ds = pangeo_CMIP_funs.cmip6_via_pangeo(zstore=zstore)
-
-    # if there is a target year, subset the dataset by that year
-    if year != None:
-        ds = ds.sel(time=ds.time.dt.year.isin([year]))
-
-    return ds
-
-
-save_path = os.getcwd().replace('\\', '/') + '/'
 
 
 
+if __name__ == "__main__":
+    save_path = os.getcwd().replace('\\', '/') + '/'
 
+    # get data from a given year
+    # year = 2100
+    year = 2050
+    # year = 2015
 
+    # plot data
+    # straight variable at a given time
+    # plotting_funs.plt_straight_variable(ds=ds, year=year, save_path=save_path, time=210)  # 210: summer?
 
-# get data from a given year
-# year = 2100
-year = 2050
-# year = 2015
+    # Count of days where variable is over a given threshold
+    # define threshold
+    threshold_temp = 30 + constants.convert_kelvin
+    plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold_temp, year=year, save_path=save_path)
 
-
-# plot data
-# straight variable at a given time
-# plotting_funs.plt_straight_variable(ds=ds, year=year, save_path=save_path, time=210)  # 210: summer?
-
-
-# Count of days where variable is over a given threshold
-# define threshold
-threshold_temp = 30 + constants.convert_kelvin
-plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold_temp, year=year, save_path=save_path)
-
-print('end')
+    print('end')
