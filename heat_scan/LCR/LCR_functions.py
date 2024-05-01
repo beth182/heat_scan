@@ -4,8 +4,6 @@ import geopandas as gpd
 import pandas as pd
 from shapely.geometry import Point
 import matplotlib.pyplot as plt
-import xarray as xr
-import gcsfs
 import numpy as np
 import rasterio as rio
 from rasterio import features as feat
@@ -14,7 +12,7 @@ import matplotlib
 
 matplotlib.use('TkAgg')
 
-from heat_scan.tools import pangeo_CMIP_funs
+from heat_scan.tools.pangeo_CMIP import pangeo_CMIP_funs
 
 
 def global_city_boundaries(current_dir=os.getcwd().replace('\\', '/') + '/', plot=False):

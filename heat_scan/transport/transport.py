@@ -1,6 +1,6 @@
 import os
 
-from heat_scan.tools import pangeo_CMIP_funs
+from heat_scan.tools.pangeo_CMIP import pangeo_CMIP_funs
 from heat_scan.tools import constants
 from heat_scan.transport import plotting_funs
 
