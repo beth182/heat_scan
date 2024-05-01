@@ -18,12 +18,13 @@ save_path = os.getcwd().replace('\\', '/') + '/'
 
 # plot data
 # straight variable at a given time
-plotting_funs.plt_straight_variable(ds=ds, year=year, save_path=save_path, time=210)  # 210: summer?
+# plotting_funs.plt_straight_variable(ds=ds, year=year, save_path=save_path, time=210)  # 210: summer, 0: winter?
 
 # Count of days where variable is over a given threshold
+# ToDo: define fun to wrap this in - to get data from multiple threshilds etc.
 # define threshold
 threshold_temp = 30 + constants.convert_kelvin
-plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold_temp, year=year, save_path=save_path)
+# plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold_temp, year=year, save_path=save_path)
 
 print('end')
 

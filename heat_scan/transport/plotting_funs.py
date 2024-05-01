@@ -62,10 +62,13 @@ def plt_straight_variable(ds, year, save_path, time=0):
     # ToDo: add check to see if variable is a temperature in kelvin before this step?
     # ToDo: make variable flexable
     deg_c = ds.tasmax.isel(time=time) - constants.convert_kelvin
-    deg_c.plot(ax=ax)
+    deg_c.plot(ax=ax, cbar_kwargs={"location": "bottom", 'pad': -0.2})
     white_ocean(ax=ax)
 
-    plt.savefig(save_path + '/plots/' + 'tasmax_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)
+    ax.xaxis.set_visible(False)
+    ax.yaxis.set_visible(False)
+
+    plt.savefig(save_path + '/plots/' + 'tasmax_in_' + str(year) + '_time_' + str(int(time)) + '.png', bbox_inches='tight', dpi=300)
 
 
 def plt_count_over_threshold(ds, threshold, year, save_path):
