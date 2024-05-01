@@ -49,7 +49,7 @@ def white_ocean(ax):
     return ax
 
 
-def plt_straight_variable(ds, time=0):
+def plt_straight_variable(ds, year, save_path, time=0):
     """
     Plot a given variable at a time
     :return:
@@ -64,6 +64,8 @@ def plt_straight_variable(ds, time=0):
     deg_c = ds.tasmax.isel(time=time) - constants.convert_kelvin
     deg_c.plot(ax=ax)
     white_ocean(ax=ax)
+
+    plt.savefig(save_path + '/plots/' + 'tasmax_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)
 
 
 def plt_count_over_threshold(ds, threshold, year, save_path):

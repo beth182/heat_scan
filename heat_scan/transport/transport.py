@@ -23,9 +23,7 @@ def main_find_CMIP(year=None):
     # day
     zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/day/tasmax/gr1/v20180701/'
     # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp585/r1i1p1f1/day/tasmax/gr1/v20180701/'
-
     # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/CCCma/CanESM5/ssp245/r1i1p2f1/day/tasmax/gn/v20190429/'
-
     # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/BCC/BCC-CSM2-MR/ssp245/r1i1p1f1/day/tasmax/gn/v20190318/'
 
     # find the dataset
@@ -40,12 +38,10 @@ def main_find_CMIP(year=None):
 
 save_path = os.getcwd().replace('\\', '/') + '/'
 
-# plot data
-# straight variable at a given time
-# plotting_funs.plt_straight_variable(ds, 210)
 
 
-# Count of days where variable is over a given threshold
+
+
 
 # get data from a given year
 # year = 2100
@@ -53,9 +49,14 @@ year = 2050
 # year = 2015
 
 
+# plot data
+# straight variable at a given time
+# plotting_funs.plt_straight_variable(ds=ds, year=year, save_path=save_path, time=210)  # 210: summer?
+
+
+# Count of days where variable is over a given threshold
 # define threshold
 threshold_temp = 30 + constants.convert_kelvin
-
-plotting_funs.plt_count_over_threshold(ds=ds_2015, threshold=threshold_temp, year=year, save_path=save_path)
+plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold_temp, year=year, save_path=save_path)
 
 print('end')
