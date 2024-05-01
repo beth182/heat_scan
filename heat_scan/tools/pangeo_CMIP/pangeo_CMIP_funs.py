@@ -1,6 +1,8 @@
 # imports
 import xarray as xr
 import gcsfs
+import os
+import pandas as pd
 
 
 def cmip6_via_pangeo(zstore, plot=False):
@@ -38,26 +40,69 @@ def cmip6_via_pangeo(zstore, plot=False):
     return ds
 
 
-def main_find_CMIP(year=None):
+def search_pangeo_lookup(variable_id, experiment_id, activity_id='ScenarioMIP', institution_id='NOAA-GFDL',
+                         source_id='GFDL-ESM4', member_id='r1i1p1f1', table_id='day', grid_label='gr1'):
     """
 
-    :param save_path:
+    :param variable_id:
+    :param experiment_id: e.g. SSP for ScenarioMIP
+    :param activity_id:
+    :param institution_id:
+    :param source_id:
+    :param member_id:
+    :param table_id:
+    :param grid_label:
+    :return:
+    """
+
+    # note: previously have used:
+    # 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/day/tasmax/gr1/v20180701/'
+    # 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp585/r1i1p1f1/day/tasmax/gr1/v20180701/'
+    # 'gs://cmip6/CMIP6/ScenarioMIP/CCCma/CanESM5/ssp245/r1i1p2f1/day/tasmax/gn/v20190429/'
+    # 'gs://cmip6/CMIP6/ScenarioMIP/BCC/BCC-CSM2-MR/ssp245/r1i1p1f1/day/tasmax/gn/v20190318/'
+
+    # ToDo: docstring here
+
+    csv_file_path = os.path.dirname(os.path.realpath(__file__)).replace('\\', '/') + '/pangeo-cmip6.csv'
+
+    df_all = pd.read_csv(csv_file_path)
+
+    df = df_all.loc[(df_all['variable_id'] == variable_id) &
+                    (df_all['experiment_id'] == experiment_id) &
+                    (df_all['activity_id'] == activity_id) &
+                    (df_all['institution_id'] == institution_id) &
+                    (df_all['source_id'] == source_id) &
+                    (df_all['member_id'] == member_id) &
+                    (df_all['table_id'] == table_id) &
+                    (df_all['grid_label'] == grid_label)
+                    ]
+
+    # if df is bigger than one entry, flag
+    if len(df) > 1:
+        print('end')
+
+    zstore = df.zstore.values[0]
+    return zstore
+
+
+def main_find_CMIP(zstore=None, year=None, **kwargs):
+    """
+
+    :param variable_id:
+    :param experiment_id:
+    :param year:
     :return:
     """
     # ToDo: docstring here
 
-    # ToDo: make function to search the csv for user's choices here - where the zstore is returned
+    if zstore == None:
+        assert 'variable_id' in kwargs.keys()
+        assert 'experiment_id' in kwargs.keys()
 
-    # tasmax
-    # r1i1p1f1
-    # NOAA-GFDL
-    # ScenarioMIP
-    # ssp245
-    # day
-    zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/day/tasmax/gr1/v20180701/'
-    # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp585/r1i1p1f1/day/tasmax/gr1/v20180701/'
-    # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/CCCma/CanESM5/ssp245/r1i1p2f1/day/tasmax/gn/v20190429/'
-    # zstore = 'gs://cmip6/CMIP6/ScenarioMIP/BCC/BCC-CSM2-MR/ssp245/r1i1p1f1/day/tasmax/gn/v20190318/'
+        variable_id = kwargs['variable_id']
+        experiment_id = kwargs['experiment_id']
+
+        zstore = search_pangeo_lookup(variable_id=variable_id, experiment_id=experiment_id)
 
     # find the dataset
     ds = cmip6_via_pangeo(zstore=zstore)
