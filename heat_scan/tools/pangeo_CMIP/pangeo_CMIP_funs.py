@@ -99,10 +99,7 @@ def main_find_CMIP(zstore=None, year=None, **kwargs):
         assert 'variable_id' in kwargs.keys()
         assert 'experiment_id' in kwargs.keys()
 
-        variable_id = kwargs['variable_id']
-        experiment_id = kwargs['experiment_id']
-
-        zstore = search_pangeo_lookup(variable_id=variable_id, experiment_id=experiment_id)
+        zstore = search_pangeo_lookup(**kwargs)
 
     # find the dataset
     ds = cmip6_via_pangeo(zstore=zstore)

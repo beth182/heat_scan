@@ -6,15 +6,15 @@ from heat_scan.transport import plotting_funs
 from heat_scan.tools.pangeo_CMIP import pangeo_CMIP_funs
 
 
-def run_projections(threshold, variable_id='tasmax', experiment_id='ssp245', year=None,
-                    save_path=os.getcwd().replace('\\', '/') + '/'):
+def run_projections(threshold, experiment_id, variable_id='tasmax', year=None,
+                    save_path=os.getcwd().replace('\\', '/') + '/', **kwargs):
     """
 
     :return:
     """
     # ToDo: docstring here
 
-    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id=variable_id, experiment_id=experiment_id, year=year)
+    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id=variable_id, experiment_id=experiment_id, year=year, **kwargs)
 
     # plot data
     # straight variable at a given time
@@ -33,6 +33,8 @@ if __name__ == "__main__":
     # year = 2050
     # year = 2100
 
-    run_projections(threshold=30, year=year)
+    experiment_id = 'ssp245'
+
+    run_projections(threshold=25, experiment_id = experiment_id, year=year)
 
     print('end')
