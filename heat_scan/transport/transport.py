@@ -35,6 +35,6 @@ if __name__ == "__main__":
 
     experiment_id = 'ssp245'
 
-    run_projections(threshold=25, experiment_id = experiment_id, year=year)
+    run_projections(threshold=30, experiment_id = experiment_id, year=year)
 
     print('end')

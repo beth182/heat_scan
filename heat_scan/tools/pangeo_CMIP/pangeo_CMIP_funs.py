@@ -82,6 +82,9 @@ def search_pangeo_lookup(variable_id, experiment_id, activity_id='ScenarioMIP', 
         print('end')
 
     zstore = df.zstore.values[0]
+
+    # ToDo: create a way of returning all choices - e.g. whole row - or create a dict with this info?
+
     return zstore
 
 
