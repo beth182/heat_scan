@@ -3,35 +3,36 @@ import os
 from heat_scan.tools import constants
 from heat_scan.transport import plotting_funs
 
-
 from heat_scan.tools.pangeo_CMIP import pangeo_CMIP_funs
 
-# get data from a given year
-# year = 2100
-# year = 2050
-year = 2015
+
+def run_projections(threshold, variable_id='tasmax', experiment_id='ssp245', year=None,
+                    save_path=os.getcwd().replace('\\', '/') + '/'):
+    """
+
+    :return:
+    """
+    # ToDo: docstring here
+
+    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id=variable_id, experiment_id=experiment_id, year=year)
+
+    # plot data
+    # straight variable at a given time
+    # plotting_funs.plt_straight_variable(ds=ds, year=year, save_path=save_path, time=210)  # 210: summer, 0: winter?
+
+    # Count of days where variable is over a given threshold
+    if variable_id == 'tasmax' or variable_id == 'tas':
+        threshold += constants.convert_kelvin
+
+    plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold, year=year, save_path=save_path)
 
 
-ds = pangeo_CMIP_funs.main_find_CMIP(variable_id='tasmax', experiment_id='ssp245', year=year)
+if __name__ == "__main__":
+    # get data from a given year
+    year = 2015
+    # year = 2050
+    # year = 2100
 
-save_path = os.getcwd().replace('\\', '/') + '/'
+    run_projections(threshold=30, year=year)
 
-# plot data
-# straight variable at a given time
-# plotting_funs.plt_straight_variable(ds=ds, year=year, save_path=save_path, time=210)  # 210: summer, 0: winter?
-
-# Count of days where variable is over a given threshold
-# ToDo: define fun to wrap this in - to get data from multiple threshilds etc.
-# define threshold
-threshold_temp = 30 + constants.convert_kelvin
-# plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold_temp, year=year, save_path=save_path)
-
-print('end')
-
-
-
-
-
-
-
-
+    print('end')
