@@ -7,14 +7,15 @@ import os
 import matplotlib
 
 matplotlib.use('TkAgg')
+# matplotlib.rcParams.update({'font.size': 15})
 
 # original photo links: https://www.istockphoto.com/photo/fisheye-perspective-of-trees-in-forest-gm141468118-78244507
 # https://www.istockphoto.com/photo/around-on-sky-taken-with-a-fisheye-lens-to-give-the-special-plate-effect-the-fresh-gm1250118657-364512394
 
 save_path = os.getcwd().replace('\\', '/') + '/'
 
-# background = 'light'
-background = 'dark'
+background = 'light'
+# background = 'dark'
 
 tz = 'Africa/Djibouti'
 lat, lon = 11.588016341753459, 43.14789764878434
@@ -77,6 +78,7 @@ ax.set_rlabel_position(0)
 plt.setp(ax.get_yticklabels()[::2], visible=False)
 
 ax.set_xticklabels(['N', '', 'E', '', 'S', '', 'W', ''], color=label_c, fontsize=20)
+ax.tick_params(axis='x', which='major', pad=10)
 
 import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
