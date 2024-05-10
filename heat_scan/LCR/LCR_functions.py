@@ -7,12 +7,38 @@ import matplotlib.pyplot as plt
 import numpy as np
 import rasterio as rio
 from rasterio import features as feat
+from mpl_toolkits.basemap import Basemap
 
 import matplotlib
 
 matplotlib.use('TkAgg')
 
 from heat_scan.tools.pangeo_CMIP import pangeo_CMIP_funs
+
+
+def read_boundary_shapefile(poly_file_path, plot=False):
+    """
+
+    :param poly_file_path:
+    :param plot:
+    :return:
+    """
+    # ToDo: Docstring here
+
+    # confirm the file exists
+    assert os.path.isfile(poly_file_path)
+
+    polygon_df = gpd.read_file(poly_file_path)
+
+    # get rid of invalid lines
+    # polygon_df = polygon_df.loc[polygon_df.geometry.is_valid]
+
+    # plot to check
+    if plot:
+        polygon_df.plot()
+        plt.show()
+
+    return polygon_df
 
 
 def global_city_boundaries(current_dir=os.getcwd().replace('\\', '/') + '/', plot=False):
@@ -29,20 +55,51 @@ def global_city_boundaries(current_dir=os.getcwd().replace('\\', '/') + '/', plo
 
     poly_file_path = current_dir + 'city_polygons/GHS_SDATA_WUP2018_BOUNDARIES_MT_GLOBE_R2023A_V1_0.shp'
 
-    # confirm the file exists
-    assert os.path.isfile(poly_file_path)
+    polygon_df = read_boundary_shapefile(poly_file_path, plot)
 
-    polygon_df = gpd.read_file(poly_file_path)
+    return polygon_df
 
-    # get rid of invalid lines
-    # polygon_df = polygon_df.loc[polygon_df.geometry.is_valid]
+
+def global_country_boundaries(current_dir=os.getcwd().replace('\\', '/') + '/', plot=False):
+    """
+    https://www.geoboundaries.org/countryDownloads.html
+    :return:
+    """
+    # ToDo: Docstring here
+
+    poly_file_path = current_dir + '../tools/geoBoundaries/countries/geoBoundariesCGAZ_ADM0.shp'
+
+    polygon_df = read_boundary_shapefile(poly_file_path, plot)
+
+    return polygon_df
+
+
+def select_country_boundaries(polygon_df, country_name_list, plot=False):
+    """
+
+    :param country_name_list:
+    :return:
+    """
+    # ToDo: Docstring here
+
+    country_row_list = []
+    for name in country_name_list:
+        assert name in polygon_df.shapeName.to_list()
+
+        country_row = polygon_df[polygon_df.shapeName == name]
+        country_row_list.append(country_row)
+
+    country_df = pd.concat(country_row_list)
 
     # plot to check
     if plot:
-        polygon_df.plot()
+        country_df.plot()
+        m = Basemap()
+        m.drawcoastlines()
+        m.drawcountries()
         plt.show()
 
-    return polygon_df
+    return country_df
 
 
 def define_study_cities(current_dir=os.getcwd().replace('\\', '/') + '/', plot=False):
@@ -113,9 +170,6 @@ def coord_polygon_overlap(point, polygon_df, plot=False):
     return closest_polygon
 
 
-
-
-
 def select_data(ds, closest_polygon, plot=False):
     """
     Function which grabs the data overlapping with a city boundary
@@ -134,12 +188,12 @@ def select_data(ds, closest_polygon, plot=False):
 
     # Create a mask of the polygon
     transform = rio.transform.from_bounds(array.lon[0], array.lat[-1], array.lon[-1], array.lat[0],
-                                               array.shape[1], array.shape[0])
+                                          array.shape[1], array.shape[0])
     mask = feat.geometry_mask([closest_polygon],
-                                           out_shape=(array.shape[0], array.shape[1]),
-                                           transform=transform,
-                                           all_touched=True,
-                                           invert=True)
+                              out_shape=(array.shape[0], array.shape[1]),
+                              transform=transform,
+                              all_touched=True,
+                              invert=True)
 
     # Apply the mask to the xarray dataset
     masked_data = array.where(mask)
@@ -158,6 +212,17 @@ def select_data(ds, closest_polygon, plot=False):
 
 
 if __name__ == "__main__":
+
+    test = global_country_boundaries()
+    country_df = select_country_boundaries(test, ['United States'])
+
+
+    # ToDo: add proper function for this
+    # ToDo: have a global country csv file - with continents (regions) included
+    # READ IN COUNTRY NAME FILE
+    # made from copying info from https://www.worldometers.info/geography/how-many-countries-in-latin-america/
+    test2 = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_LCR.csv')
+
     # define global city boundaries
     polygon_df = global_city_boundaries()
 
@@ -178,7 +243,8 @@ if __name__ == "__main__":
         closest_polygon = polylist[0]
 
     # grab CMIP6 data
-    ds = pangeo_CMIP_funs.cmip6_via_pangeo(zstore='gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/Amon/tas/gr1/v20180701/')
+    ds = pangeo_CMIP_funs.cmip6_via_pangeo(
+        zstore='gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/Amon/tas/gr1/v20180701/')
 
     masked_data = select_data(ds, closest_polygon)
 

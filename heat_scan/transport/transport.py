@@ -24,7 +24,7 @@ def run_projections(threshold, experiment_id, variable_id='tasmax', year=None,
     if variable_id == 'tasmax' or variable_id == 'tas':
         threshold += constants.convert_kelvin
 
-    plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold, year=year, save_path=save_path)
+    plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold, year=year, save_path=save_path, region='LCR')
 
 
 if __name__ == "__main__":

@@ -22,7 +22,7 @@ def white_ocean(ax):
 
     # ToDo: add to docstring here
 
-    m = Basemap()
+    m = Basemap(ax=ax)
     m.drawcoastlines()
 
     # making the ocean white
@@ -68,10 +68,11 @@ def plt_straight_variable(ds, year, save_path, time=0):
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(False)
 
-    plt.savefig(save_path + '/plots/' + 'tasmax_in_' + str(year) + '_time_' + str(int(time)) + '.png', bbox_inches='tight', dpi=300)
+    plt.savefig(save_path + '/plots/' + 'tasmax_in_' + str(year) + '_time_' + str(int(time)) + '.png',
+                bbox_inches='tight', dpi=300)
 
 
-def plt_count_over_threshold(ds, threshold, year, save_path):
+def plt_count_over_threshold(ds, threshold, year, save_path, region=False):
     """
 
     :return:
@@ -84,6 +85,7 @@ def plt_count_over_threshold(ds, threshold, year, save_path):
     # replace any 0 values with nan
     summed_vals = summed_vals.where(summed_vals > 0)
 
+    # fig, (ax, cax) = plt.subplots(nrows=2, figsize=(15, 12), gridspec_kw={"height_ratios":[1, 0.05]})
     fig, ax = plt.subplots(1, figsize=(15, 12))
 
     # set colourbar
@@ -92,15 +94,41 @@ def plt_count_over_threshold(ds, threshold, year, save_path):
     cmap.set_bad('black', 1.)
 
     # ToDo: make variable flexable
-    summed_vals.tasmax.plot(ax=ax, cmap=cmap, cbar_kwargs={'label': "# of days", "location": "bottom", 'pad': -0.2}, vmin=1, vmax=365)
+    im = summed_vals.tasmax.plot(ax=ax, cmap=cmap, add_colorbar=False,
+                            vmin=1, vmax=365)
     white_ocean(ax=ax)
 
-    plt.title('Number of days in ' + str(year) + ' where Daily Maximum Near-Surface Air Temperature > ' + str(
+    from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+    cax = inset_axes(ax,
+                       width="100%",
+                       height="5%",
+                       loc='lower center',
+                       borderpad=-2.5
+                       )
+
+
+    fig.colorbar(im, cax=cax, orientation="horizontal", label='# of days')
+
+    ax.set_title('Number of days in ' + str(year) + ' where Daily Maximum Near-Surface Air Temperature > ' + str(
         threshold - constants.convert_kelvin) + '$^{\circ}$C')
 
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(False)
 
-    plt.savefig(save_path + '/plots/' + 'days_over_' + str(int(threshold - constants.convert_kelvin)) + '_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)
+    if region != False:
+
+        assert region in constants.coord_contraints.keys()
+
+        ax.set_xlim(constants.coord_contraints[region]['BL']['x'], constants.coord_contraints[region]['BR']['x'])
+        ax.set_ylim(constants.coord_contraints[region]['BL']['y'], constants.coord_contraints[region]['TL']['y'])
+
+        plt.savefig(save_path + '/plots/' + region + '_days_over_' + str(int(threshold - constants.convert_kelvin)) + '_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)
+
+    else:
+
+
+        plt.savefig(
+            save_path + '/plots/' + 'days_over_' + str(int(threshold - constants.convert_kelvin)) + '_in_' + str(
+                year) + '.png', bbox_inches='tight', dpi=300)
 
     print('end')
