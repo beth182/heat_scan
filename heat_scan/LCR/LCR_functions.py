@@ -8,12 +8,14 @@ import numpy as np
 import rasterio as rio
 from rasterio import features as feat
 from mpl_toolkits.basemap import Basemap
+import xarray as xr
 
 import matplotlib
 
 matplotlib.use('TkAgg')
 
 from heat_scan.tools.pangeo_CMIP import pangeo_CMIP_funs
+from heat_scan.tools import constants
 
 
 def read_boundary_shapefile(poly_file_path, plot=False):
@@ -174,58 +176,91 @@ def coord_polygon_overlap(point, polygon_df, plot=False):
     return closest_polygon
 
 
-def select_data(ds, closest_polygon, plot=False):
+def select_data_in_multiple_country_polygons(array, polygon_df, plot=False):
+    """
+
+    :return:
+    """
+    # ToDo: Docstring here
+
+    data_dict = {}
+
+    count = 1
+    for index, row in polygon_df.iterrows():
+        print(str(count) + '/' + str(len(polygon_df)) + ': ' + row.shapeName)
+        data_dict[row.shapeName] = select_data_in_polygon(array, row, plot=plot, country=row.shapeName)
+        count += 1
+
+    return data_dict
+
+
+def select_data_in_polygon(array, polygon, plot=False, **kwargs):
     """
     Function which grabs the data overlapping with a city boundary
     :return:
     """
 
-    assert len(list(ds.keys())) == 1
-    var_name = list(ds.keys())[0]
-
-    # ToDo: think about the time selection
-    # for now just use the first time
-    array = ds.tas.isel(time=0)
-
-    # Create a grid representing the dataset
-    grid_lons, grid_lats = np.meshgrid(array.lon, array.lat)
-
     # Create a mask of the polygon
     transform = rio.transform.from_bounds(array.lon[0], array.lat[-1], array.lon[-1], array.lat[0],
-                                          array.shape[1], array.shape[0])
-    mask = feat.geometry_mask([closest_polygon],
-                              out_shape=(array.shape[0], array.shape[1]),
+                                          array.shape[2], array.shape[1])
+
+    mask = feat.geometry_mask([polygon.geometry],
+                              out_shape=(array.shape[1], array.shape[2]),
                               transform=transform,
                               all_touched=True,
                               invert=True)
 
-    # Apply the mask to the xarray dataset
+    # Apply the spatial mask across all times
     masked_data = array.where(mask)
 
     if plot:
         # check w/ data: fig
         fig = plt.figure(figsize=(8, 7))
         ax = plt.subplot(1, 1, 1)
-        masked_data.plot(ax=ax)
-        polygon_df.plot(ax=ax)
-        gpd.GeoSeries([closest_polygon]).plot(ax=ax, facecolor='r')
+        masked_data.isel(time=0).plot(ax=ax, zorder=1)
+        gpd.GeoSeries([polygon.geometry]).plot(ax=ax, facecolor='r', zorder=2)
         # ax.scatter(point.x, point.y, c='k')
+        assert 'country' in kwargs.keys()
+        plt.savefig(os.getcwd().replace('\\', '/') + '/country_boundary_tests/' + kwargs['country'] + '.png', bbox_inches='tight', dpi=300)
 
     # Now `masked_data` contains only the values within or touching the polygon.
     return masked_data
 
 
-if __name__ == "__main__":
+def days_over_threshold(data_dict, threshold):
+    """
 
+    :return:
+    """
+    # ToDo: Docstring here
+
+    days_dict = {}
+    for country in data_dict:
+        ds = data_dict[country]
+        high_vals = xr.where(ds > threshold, 1, 0)  # set all temps over threshold = 1; others to 0
+        summed_vals = high_vals.sum(dim='time')
+
+        # replace any 0 values with nan
+        summed_vals = summed_vals.where(summed_vals > 0)
+
+        days_dict[country] = summed_vals
+
+    return days_dict
+
+
+if __name__ == "__main__":
     # ToDo: add proper function for this
     # ToDo: have a global country csv file - with continents (regions) included
     # READ IN COUNTRY NAME FILE
     # made from copying info from https://www.worldometers.info/geography/how-many-countries-in-latin-america/
-    LCR_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_LCR.csv')
-    LCR_countries_list = LCR_countries.Country.to_list()
+    # LCR_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_LCR.csv')
+    # countries_list = LCR_countries.Country.to_list()
+
+    test_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_test.csv')
+    countries_list = test_countries.Country.to_list()
 
     country_shapes = global_country_boundaries()
-    country_df = select_country_boundaries(country_shapes, LCR_countries_list)
+    country_df = select_country_boundaries(country_shapes, countries_list)
 
     """
     # define global city boundaries
@@ -251,10 +286,41 @@ if __name__ == "__main__":
     # grab CMIP6 data
     year = 2015
     experiment_id = 'ssp245'
-    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id = 'tasmax', experiment_id=experiment_id, year=year)
+    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id='tasmax', experiment_id=experiment_id, year=year)
 
-    masked_data = select_data(ds, closest_polygon)
 
-    val = np.nanmean(masked_data)
+    assert len(list(ds.keys())) == 1
+    var_name = list(ds.keys())[0]
+
+    data_dict = select_data_in_multiple_country_polygons(array=ds[var_name], polygon_df=country_df,plot=True)
+
+    threshold = 30
+    day_count_dict = days_over_threshold(data_dict=data_dict, threshold=threshold + constants.convert_kelvin)
+
+    mean_vals = []
+    max_vals = []
+    min_vals = []
+    median_vals = []
+
+    mean_temp = []
+    max_temp = []
+    min_temp = []
+    median_temp = []
+
+    for country in countries_list:
+        mean_vals.append(np.nanmean(day_count_dict[country]))
+        max_vals.append(np.nanmax(day_count_dict[country]))
+        min_vals.append(np.nanmin(day_count_dict[country]))
+        median_vals.append(np.nanmedian(day_count_dict[country]))
+
+        mean_temp.append(np.nanmean(data_dict[country]))
+        max_temp.append(np.nanmax(data_dict[country]))
+        min_temp.append(np.nanmin(data_dict[country]))
+        median_temp.append(np.nanmedian(data_dict[country]))
+
+    df_dict = {'Country': countries_list, 'Mean days': mean_vals, 'Median days': median_vals, 'Max days': max_vals, 'Min days': min_vals,
+               'Mean temp': mean_temp, 'Median temp': median_temp, 'Max temp': max_temp, 'Min temp': min_temp}
+    df = pd.DataFrame.from_dict(df_dict)
+    df.to_csv(os.getcwd().replace('\\', '/') + '/' + str(year) + '_days_over_' + str(threshold) + '.csv')
 
     print('end')
