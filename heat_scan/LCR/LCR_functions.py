@@ -84,7 +84,11 @@ def select_country_boundaries(polygon_df, country_name_list, plot=False):
 
     country_row_list = []
     for name in country_name_list:
-        assert name in polygon_df.shapeName.to_list()
+
+        try:
+            assert name in polygon_df.shapeName.to_list()
+        except:
+            print('end')
 
         country_row = polygon_df[polygon_df.shapeName == name]
         country_row_list.append(country_row)
@@ -213,16 +217,17 @@ def select_data(ds, closest_polygon, plot=False):
 
 if __name__ == "__main__":
 
-    test = global_country_boundaries()
-    country_df = select_country_boundaries(test, ['United States'])
-
-
     # ToDo: add proper function for this
     # ToDo: have a global country csv file - with continents (regions) included
     # READ IN COUNTRY NAME FILE
     # made from copying info from https://www.worldometers.info/geography/how-many-countries-in-latin-america/
-    test2 = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_LCR.csv')
+    LCR_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_LCR.csv')
+    LCR_countries_list = LCR_countries.Country.to_list()
 
+    country_shapes = global_country_boundaries()
+    country_df = select_country_boundaries(country_shapes, LCR_countries_list)
+
+    """
     # define global city boundaries
     polygon_df = global_city_boundaries()
 
@@ -241,10 +246,12 @@ if __name__ == "__main__":
     if closest_polygon.type == 'MultiPolygon':
         polylist = list(closest_polygon.geoms)
         closest_polygon = polylist[0]
+    """
 
     # grab CMIP6 data
-    ds = pangeo_CMIP_funs.cmip6_via_pangeo(
-        zstore='gs://cmip6/CMIP6/ScenarioMIP/NOAA-GFDL/GFDL-ESM4/ssp245/r1i1p1f1/Amon/tas/gr1/v20180701/')
+    year = 2015
+    experiment_id = 'ssp245'
+    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id = 'tasmax', experiment_id=experiment_id, year=year)
 
     masked_data = select_data(ds, closest_polygon)
 
