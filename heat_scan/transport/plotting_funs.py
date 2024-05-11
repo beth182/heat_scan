@@ -79,6 +79,7 @@ def plt_count_over_threshold(ds, threshold, year, save_path, region=False):
     """
     # ToDo: add to docstring here
 
+    # ToDo: repreat here: moved to fun in LCR
     high_vals = xr.where(ds > threshold, 1, 0)  # set all temps over threshold = 1; others to 0
     summed_vals = high_vals.sum(dim='time')
 

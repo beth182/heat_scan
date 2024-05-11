@@ -6,7 +6,7 @@ from heat_scan.transport import plotting_funs
 from heat_scan.tools.pangeo_CMIP import pangeo_CMIP_funs
 
 
-def run_projections(threshold, experiment_id, variable_id='tasmax', year=None,
+def run_projections(threshold, experiment_id, variable_id='tasmax', year=None, region=None,
                     save_path=os.getcwd().replace('\\', '/') + '/', **kwargs):
     """
 
@@ -24,17 +24,17 @@ def run_projections(threshold, experiment_id, variable_id='tasmax', year=None,
     if variable_id == 'tasmax' or variable_id == 'tas':
         threshold += constants.convert_kelvin
 
-    plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold, year=year, save_path=save_path, region='LCR')
+    plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold, year=year, save_path=save_path, region=region)
 
 
 if __name__ == "__main__":
     # get data from a given year
-    year = 2015
+    # year = 2015
     # year = 2050
-    # year = 2100
+    year = 2100
 
     experiment_id = 'ssp245'
 
-    run_projections(threshold=30, experiment_id = experiment_id, year=year)
+    run_projections(threshold=30, experiment_id = experiment_id, year=year, region='LCR')
 
     print('end')
