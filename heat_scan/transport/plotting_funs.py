@@ -13,7 +13,7 @@ matplotlib.rcParams.update({'font.size': 15})
 from heat_scan.tools import constants
 
 
-def white_ocean(ax):
+def white_ocean(ax, countries=False):
     """
     Source: https://stackoverflow.com/questions/48620803/fill-oceans-in-basemap
     :param ax:
@@ -24,6 +24,8 @@ def white_ocean(ax):
 
     m = Basemap(ax=ax)
     m.drawcoastlines()
+    if countries:
+        m.drawcountries()
 
     # making the ocean white
     # getting the limits of the map:
@@ -97,7 +99,7 @@ def plt_count_over_threshold(ds, threshold, year, save_path, region=False):
     # ToDo: make variable flexable
     im = summed_vals.tasmax.plot(ax=ax, cmap=cmap, add_colorbar=False,
                             vmin=1, vmax=365)
-    white_ocean(ax=ax)
+    white_ocean(ax=ax, countries=True)
 
     from mpl_toolkits.axes_grid1.inset_locator import inset_axes
     cax = inset_axes(ax,

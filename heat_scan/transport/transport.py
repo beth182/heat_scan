@@ -30,8 +30,8 @@ def run_projections(threshold, experiment_id, variable_id='tasmax', year=None, r
 if __name__ == "__main__":
     # get data from a given year
     # year = 2015
-    # year = 2050
-    year = 2100
+    year = 2050
+    # year = 2100
 
     experiment_id = 'ssp245'
 
