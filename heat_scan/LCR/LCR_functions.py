@@ -253,11 +253,11 @@ if __name__ == "__main__":
     # ToDo: have a global country csv file - with continents (regions) included
     # READ IN COUNTRY NAME FILE
     # made from copying info from https://www.worldometers.info/geography/how-many-countries-in-latin-america/
-    # LCR_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_LCR.csv')
-    # countries_list = LCR_countries.Country.to_list()
+    LCR_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_LCR.csv')
+    countries_list = LCR_countries.Country.to_list()
 
-    test_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_test.csv')
-    countries_list = test_countries.Country.to_list()
+    # test_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_test.csv')
+    # countries_list = test_countries.Country.to_list()
 
     country_shapes = global_country_boundaries()
     country_df = select_country_boundaries(country_shapes, countries_list)
@@ -284,7 +284,7 @@ if __name__ == "__main__":
     """
 
     # grab CMIP6 data
-    year = 2015
+    year = 2100
     experiment_id = 'ssp245'
     ds = pangeo_CMIP_funs.main_find_CMIP(variable_id='tasmax', experiment_id=experiment_id, year=year)
 
@@ -292,7 +292,7 @@ if __name__ == "__main__":
     assert len(list(ds.keys())) == 1
     var_name = list(ds.keys())[0]
 
-    data_dict = select_data_in_multiple_country_polygons(array=ds[var_name], polygon_df=country_df,plot=True)
+    data_dict = select_data_in_multiple_country_polygons(array=ds[var_name], polygon_df=country_df,plot=False)
 
     threshold = 30
     day_count_dict = days_over_threshold(data_dict=data_dict, threshold=threshold + constants.convert_kelvin)
