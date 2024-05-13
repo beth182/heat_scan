@@ -77,3 +77,6 @@ plt.title('Number of days where daily maximum near-surface air temperature > ' +
 
 plt.savefig(current_dir + 'countries_days_over_' + str(threshold) + '_' + ssp + '.png', bbox_inches='tight', dpi=300)
 print('end')
+
+# plt.scatter(df['2015 Country'], (df['2015 Median temp'] - df['2015 Mean temp'])/df['2015 Mean temp'])
+# plt.xticks(rotation=90)

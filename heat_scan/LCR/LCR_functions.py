@@ -253,14 +253,17 @@ if __name__ == "__main__":
     # ToDo: have a global country csv file - with continents (regions) included
     # READ IN COUNTRY NAME FILE
     # made from copying info from https://www.worldometers.info/geography/how-many-countries-in-latin-america/
-    LCR_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_LCR.csv')
-    countries_list = LCR_countries.Country.to_list()
 
-    # test_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_test.csv')
-    # countries_list = test_countries.Country.to_list()
+    # LCR_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_LCR.csv')
+    # countries_list = LCR_countries.Country.to_list()
+    # test = False
+
+    test_countries = pd.read_csv(os.getcwd().replace('\\', '/') + '/countries_in_test.csv')
+    countries_list = test_countries.Country.to_list()
 
     country_shapes = global_country_boundaries()
     country_df = select_country_boundaries(country_shapes, countries_list)
+    test = True
 
     """
     # define global city boundaries
@@ -286,7 +289,18 @@ if __name__ == "__main__":
     # grab CMIP6 data
     year = 2100
     experiment_id = 'ssp245'
-    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id='tasmax', experiment_id=experiment_id, year=year)
+
+    # defult ESM4 run
+    source_id = 'GFDL-ESM4'
+    # ds = pangeo_CMIP_funs.main_find_CMIP(variable_id='tasmax', experiment_id=experiment_id, year=year)
+
+    source_id = 'HadGEM3-GC31-LL'
+    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id='tasmax', experiment_id=experiment_id, year=year, institution_id='MOHC', source_id=source_id, member_id='r2i1p1f3', grid_label='gn')
+
+    if test:
+        test_flag = '_test'
+    else:
+        test_flag = ''
 
 
     assert len(list(ds.keys())) == 1
@@ -321,6 +335,6 @@ if __name__ == "__main__":
     df_dict = {'Country': countries_list, 'Mean days': mean_vals, 'Median days': median_vals, 'Max days': max_vals, 'Min days': min_vals,
                'Mean temp': mean_temp, 'Median temp': median_temp, 'Max temp': max_temp, 'Min temp': min_temp}
     df = pd.DataFrame.from_dict(df_dict)
-    df.to_csv(os.getcwd().replace('\\', '/') + '/' + str(year) + '_days_over_' + str(threshold) + '.csv')
+    df.to_csv(os.getcwd().replace('\\', '/') + '/' + str(year) + '_days_over_' + str(threshold) + '_' + source_id + test_flag + '.csv')
 
     print('end')
