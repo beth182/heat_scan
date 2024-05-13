@@ -287,15 +287,17 @@ if __name__ == "__main__":
     """
 
     # grab CMIP6 data
-    year = 2100
+    # year = 2015
+    year = 2050
+    # year = 2100
     experiment_id = 'ssp245'
 
     # defult ESM4 run
-    source_id = 'GFDL-ESM4'
+    # source_id = 'GFDL-ESM4'
     # ds = pangeo_CMIP_funs.main_find_CMIP(variable_id='tasmax', experiment_id=experiment_id, year=year)
 
-    source_id = 'HadGEM3-GC31-LL'
-    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id='tasmax', experiment_id=experiment_id, year=year, institution_id='MOHC', source_id=source_id, member_id='r2i1p1f3', grid_label='gn')
+    source_id = 'ACCESS-CM2'
+    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id = 'tasmax', experiment_id=experiment_id, year=year, institution_id='CSIRO-ARCCSS', source_id=source_id, member_id='r1i1p1f1', grid_label='gn')
 
     if test:
         test_flag = '_test'
