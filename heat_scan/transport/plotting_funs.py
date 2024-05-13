@@ -70,11 +70,13 @@ def plt_straight_variable(ds, year, save_path, time=0):
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(False)
 
+    # ToDo: add model to dave string here
+
     plt.savefig(save_path + '/plots/' + 'tasmax_in_' + str(year) + '_time_' + str(int(time)) + '.png',
                 bbox_inches='tight', dpi=300)
 
 
-def plt_count_over_threshold(ds, threshold, year, save_path, region=False):
+def plt_count_over_threshold(ds, threshold, year, save_path, region=False, **kwargs):
     """
 
     :return:
@@ -98,17 +100,16 @@ def plt_count_over_threshold(ds, threshold, year, save_path, region=False):
 
     # ToDo: make variable flexable
     im = summed_vals.tasmax.plot(ax=ax, cmap=cmap, add_colorbar=False,
-                            vmin=1, vmax=365)
+                                 vmin=1, vmax=365)
     white_ocean(ax=ax, countries=True)
 
     from mpl_toolkits.axes_grid1.inset_locator import inset_axes
     cax = inset_axes(ax,
-                       width="100%",
-                       height="5%",
-                       loc='lower center',
-                       borderpad=-2.5
-                       )
-
+                     width="100%",
+                     height="5%",
+                     loc='lower center',
+                     borderpad=-2.5
+                     )
 
     fig.colorbar(im, cax=cax, orientation="horizontal", label='# of days')
 
@@ -118,6 +119,9 @@ def plt_count_over_threshold(ds, threshold, year, save_path, region=False):
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(False)
 
+    if not 'source_id' in kwargs.keys():
+        kwargs['source_id'] = 'GFDL-ESM4'
+
     if region != False:
 
         assert region in constants.coord_contraints.keys()
@@ -125,13 +129,13 @@ def plt_count_over_threshold(ds, threshold, year, save_path, region=False):
         ax.set_xlim(constants.coord_contraints[region]['BL']['x'], constants.coord_contraints[region]['BR']['x'])
         ax.set_ylim(constants.coord_contraints[region]['BL']['y'], constants.coord_contraints[region]['TL']['y'])
 
-        plt.savefig(save_path + '/plots/' + region + '_days_over_' + str(int(threshold - constants.convert_kelvin)) + '_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)
+        plt.savefig(save_path + '/plots/' + region + '_' + kwargs['source_id'] + '_days_over_' + str(
+            int(threshold - constants.convert_kelvin)) + '_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)
 
     else:
 
-
         plt.savefig(
-            save_path + '/plots/' + 'days_over_' + str(int(threshold - constants.convert_kelvin)) + '_in_' + str(
-                year) + '.png', bbox_inches='tight', dpi=300)
+            save_path + '/plots/' + 'global_' + kwargs['source_id'] + '_days_over_' + str(
+                int(threshold - constants.convert_kelvin)) + '_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)
 
     print('end')

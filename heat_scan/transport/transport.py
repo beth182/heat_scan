@@ -6,7 +6,7 @@ from heat_scan.transport import plotting_funs
 from heat_scan.tools.pangeo_CMIP import pangeo_CMIP_funs
 
 
-def run_projections(threshold, experiment_id, variable_id='tasmax', year=None, region=None,
+def run_projections(threshold, year=None, region=None,
                     save_path=os.getcwd().replace('\\', '/') + '/', **kwargs):
     """
 
@@ -14,17 +14,19 @@ def run_projections(threshold, experiment_id, variable_id='tasmax', year=None, r
     """
     # ToDo: docstring here
 
-    ds = pangeo_CMIP_funs.main_find_CMIP(variable_id=variable_id, experiment_id=experiment_id, year=year, **kwargs)
+    ds = pangeo_CMIP_funs.main_find_CMIP(year=year, **kwargs)
 
     # plot data
     # straight variable at a given time
     # plotting_funs.plt_straight_variable(ds=ds, year=year, save_path=save_path, time=210)  # 210: summer, 0: winter?
 
     # Count of days where variable is over a given threshold
+    assert 'variable_id' in kwargs.keys()
+    variable_id = kwargs['variable_id']
     if variable_id == 'tasmax' or variable_id == 'tas':
         threshold += constants.convert_kelvin
 
-    plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold, year=year, save_path=save_path, region=region)
+    plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold, year=year, save_path=save_path, region=region, **kwargs)
 
 
 if __name__ == "__main__":
@@ -35,6 +37,11 @@ if __name__ == "__main__":
 
     experiment_id = 'ssp245'
 
-    run_projections(threshold=30, experiment_id = experiment_id, year=year, region='LCR')
+    # defult
+    run_projections(threshold=30, variable_id = 'tasmax', experiment_id = experiment_id, year=year, region='LCR')
+
+    # run_projections(variable_id = 'tasmax', threshold=30, experiment_id=experiment_id, year=year, region='LCR', institution_id='CSIRO-ARCCSS', source_id='ACCESS-CM2', member_id='r1i1p1f1', grid_label='gn')
+
+
 
     print('end')
