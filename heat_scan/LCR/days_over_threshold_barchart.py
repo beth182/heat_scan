@@ -52,7 +52,6 @@ df_median_days = df_median_days.drop(columns=['Country'])
 # sort by 2015
 df_median_days = df_median_days.sort_values(by='2015', ascending=False)
 
-
 df_median_days['low'] = 0
 df_median_days['mid'] = 0
 df_median_days['high'] = 0
@@ -139,7 +138,7 @@ plt.xlabel('Country')
 plt.title(
     'Number of days where daily maximum near-surface air temperature > ' + str(threshold) + '$^{\circ}$C for ' + ssp)
 
-plt.savefig(current_dir + 'countries_days_over_' + str(threshold) + '_' + ssp + '.png', bbox_inches='tight', dpi=300)
+plt.savefig(current_dir + 'countries_days_over_' + str(threshold) + '_' + ssp + '_' + source_id + '.png', bbox_inches='tight', dpi=300)
 print('end')
 
 # plt.scatter(df['2015 Country'], (df['2015 Median temp'] - df['2015 Mean temp'])/df['2015 Mean temp'])
