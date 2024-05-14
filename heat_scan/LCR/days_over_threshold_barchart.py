@@ -16,11 +16,11 @@ years = [2015, 2050, 2100]
 threshold = 30
 ssp = 'SSP245'
 
-source_id = 'GFDL-ESM4'
-test = False
+# source_id = 'GFDL-ESM4'
+# test = False
 
-# source_id = 'ACCESS-CM2'
-# test = True
+source_id = 'ACCESS-CM2'
+test = True
 
 if test:
     test_flag = '_test'
