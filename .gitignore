@@ -134,4 +134,4 @@ dmypy.json
 /heat_scan/tools/pangeo_CMIP/~$pangeo-cmip6_searchable.xlsx
 /heat_scan/tools/pangeo_CMIP/pangeo-cmip6_searchable.xlsx
 
-/heat_scan/tools/geoBoundaries/countries/
+/heat_scan/tools/polygons/geoBoundaries/
