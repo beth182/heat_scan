@@ -83,7 +83,7 @@ def global_city_boundaries(current_dir=os.getcwd().replace('\\', '/') + '/', plo
     :return polygon_df: GeoDataFrame of global city boundaries as polygons.
     """
 
-    poly_file_path = current_dir + 'city_polygons/GHS_SDATA_WUP2018_BOUNDARIES_MT_GLOBE_R2023A_V1_0.shp'
+    poly_file_path = current_dir + '../tools/polygons/city_polygons/GHS_SDATA_WUP2018_BOUNDARIES_MT_GLOBE_R2023A_V1_0.shp'
 
     polygon_df = read_boundary_shapefile(poly_file_path, plot)
 
@@ -97,7 +97,7 @@ def global_country_boundaries(current_dir=os.getcwd().replace('\\', '/') + '/', 
     """
     # ToDo: Docstring here
 
-    poly_file_path = current_dir + '../tools/geoBoundaries/countries/geoBoundariesCGAZ_ADM0.shp'
+    poly_file_path = current_dir + '../tools/polygons/geoBoundaries/countries/geoBoundariesCGAZ_ADM0.shp'
 
     polygon_df = read_boundary_shapefile(poly_file_path, plot)
 

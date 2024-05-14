@@ -1,10 +1,16 @@
 # imports
-import os
 import geopandas as gpd
-import pandas as pd
 from shapely.geometry import Point
 import matplotlib.pyplot as plt
 import xarray as xr
+import os
+import pandas as pd
+import numpy as np
+
+from heat_scan.tools.pangeo_CMIP import pangeo_CMIP_funs
+from heat_scan.tools import constants
+from heat_scan.tools.polygons import polygon_funs
+from heat_scan.LCR import LCR_functions
 
 import matplotlib
 
@@ -64,3 +70,56 @@ def days_over_threshold(data_dict, threshold):
         days_dict[country] = summed_vals
 
     return days_dict
+
+
+def days_over_threshold_stats(ds, polygon_df, threshold, year, source_id, test=False, plot=False):
+    """
+
+    :return:
+    """
+    # ToDo: docstring here
+
+    if test:
+        test_flag = '_test'
+    else:
+        test_flag = ''
+
+    assert len(list(ds.keys())) == 1
+    var_name = list(ds.keys())[0]
+
+    data_dict = polygon_funs.select_data_in_multiple_country_polygons(array=ds[var_name], polygon_df=polygon_df,
+                                                                      plot=plot)
+
+    day_count_dict = days_over_threshold(data_dict=data_dict,
+                                         threshold=threshold + constants.convert_kelvin)
+
+    mean_vals = []
+    max_vals = []
+    min_vals = []
+    median_vals = []
+
+    mean_temp = []
+    max_temp = []
+    min_temp = []
+    median_temp = []
+
+    countries_list = polygon_df.shapeName.to_list()
+
+    for country in countries_list:
+        mean_vals.append(np.nanmean(day_count_dict[country]))
+        max_vals.append(np.nanmax(day_count_dict[country]))
+        min_vals.append(np.nanmin(day_count_dict[country]))
+        median_vals.append(np.nanmedian(day_count_dict[country]))
+
+        mean_temp.append(np.nanmean(data_dict[country]))
+        max_temp.append(np.nanmax(data_dict[country]))
+        min_temp.append(np.nanmin(data_dict[country]))
+        median_temp.append(np.nanmedian(data_dict[country]))
+
+    df_dict = {'Country': countries_list, 'Mean days': mean_vals, 'Median days': median_vals, 'Max days': max_vals,
+               'Min days': min_vals,
+               'Mean temp': mean_temp, 'Median temp': median_temp, 'Max temp': max_temp, 'Min temp': min_temp}
+    df = pd.DataFrame.from_dict(df_dict)
+
+    df.to_csv(os.getcwd().replace('\\', '/') + '/' + str(year) + '_days_over_' + str(
+        threshold) + '_' + source_id + test_flag + '.csv')

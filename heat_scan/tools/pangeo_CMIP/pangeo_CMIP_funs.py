@@ -6,6 +6,7 @@ import pandas as pd
 
 from heat_scan.tools.plotting import plotting_funs
 from heat_scan.tools import constants
+from heat_scan.LCR import LCR_functions
 
 
 def cmip6_via_pangeo(zstore, plot=False):
@@ -44,7 +45,7 @@ def cmip6_via_pangeo(zstore, plot=False):
 
 
 def search_pangeo_lookup(variable_id, experiment_id, activity_id='ScenarioMIP', institution_id='NOAA-GFDL',
-                         source_id='GFDL-ESM4', member_id='r1i1p1f1', table_id='day', grid_label='gr1'):
+                         source_id='GFDL-ESM4', member_id='r1i1p1f1', table_id='day', grid_label='gr1', **kwargs):
     """
 
     :param variable_id:
@@ -117,9 +118,9 @@ def main_find_CMIP(zstore=None, year=None, **kwargs):
     return ds
 
 
-def run_projections(threshold, year=None, region=None,
+def run_projections(year=None, region=None,
                     save_path=os.getcwd().replace('\\', '/') + '/',
-                    plot_var=False, plot_days_threshold=False,
+                    plot_var=False, plot_days_threshold=False, day_threshold_stats=False, test=False,
                     **kwargs):
     """
 
@@ -136,10 +137,24 @@ def run_projections(threshold, year=None, region=None,
 
     if plot_days_threshold:
         # Count of days where variable is over a given threshold
+        assert 'threshold' in kwargs.keys()
         assert 'variable_id' in kwargs.keys()
         variable_id = kwargs['variable_id']
         if variable_id == 'tasmax' or variable_id == 'tas':
-            threshold += constants.convert_kelvin
-        plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold, year=year, save_path=save_path, region=region, **kwargs)
+            threshold = kwargs['threshold'] + constants.convert_kelvin
+        plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold, year=year, save_path=save_path,
+                                               region=region, **kwargs)
+
+    if day_threshold_stats:
+        assert 'country_df' in kwargs.keys()
+        assert 'threshold' in kwargs.keys()
+        assert 'source_id' in kwargs.keys()
+        try:
+            assert year
+        except:  # ToDo: narrow down exception
+            raise ValueError('To do day_threshold_stats, a year has to be specified')
+
+        LCR_functions.days_over_threshold_stats(ds=ds, polygon_df=kwargs['country_df'], threshold=kwargs['threshold'],
+                                                year=year, source_id=kwargs['source_id'], test=test)
 
     print('end')
