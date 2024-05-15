@@ -186,3 +186,31 @@ def select_data_in_polygon(array, polygon, plot=False, **kwargs):
 
     # Now `masked_data` contains only the values within or touching the polygon.
     return masked_data
+
+
+def get_country_df(csv_dir=os.getcwd().replace('\\', '/'), test=False, **kwargs):
+    """
+    region: as string. Can be test, global, or region e.g. LCR
+    LCR country csv made from copying info from https://www.worldometers.info/geography/how-many-countries-in-latin-america/
+    :return:
+    """
+    # ToDo: docstring here
+    # ToDo: have a global country csv file - with continents (regions) included
+
+    if test:
+        region = 'test'
+    else:
+        assert 'region' in kwargs.keys()
+        region = kwargs['region']
+
+    # csv path
+    csv_path = csv_dir + '/countries_in_' + region + '.csv'
+    assert os.path.isfile(csv_path)
+
+    countries = pd.read_csv(csv_path)
+    countries_list = countries.Country.to_list()
+
+    country_shapes = global_country_boundaries()
+    country_df = select_country_boundaries(country_shapes, countries_list)
+
+    return country_df
