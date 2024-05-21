@@ -155,7 +155,7 @@ def run_projections(year=None, region=None,
         except:  # ToDo: narrow down exception
             raise ValueError('To do day_threshold_stats, a year has to be specified')
 
-        LCR_functions.days_over_threshold_stats(ds=ds, polygon_df=kwargs['country_df'], threshold=kwargs['threshold'],
-                                                year=year, source_id=kwargs['source_id'], test=test)
+        LCR_functions.days_over_threshold_stats(ds=ds, polygon_df=kwargs['country_df'],
+                                                year=year, test=test, **kwargs)
 
     print('end')

@@ -75,7 +75,7 @@ def days_over_threshold(data_dict, threshold, year):
     return days_dict
 
 
-def days_over_threshold_stats(ds, polygon_df, threshold, year, source_id, test=False, plot=False):
+def days_over_threshold_stats(ds, polygon_df, threshold, year, source_id, test=False, plot=False, **kwargs):
     """
 
     :return:
@@ -91,7 +91,7 @@ def days_over_threshold_stats(ds, polygon_df, threshold, year, source_id, test=F
     var_name = list(ds.keys())[0]
 
     data_dict = polygon_funs.select_data_in_multiple_country_polygons(array=ds[var_name], polygon_df=polygon_df,
-                                                                      plot=plot)
+                                                                      plot=plot, **kwargs)
 
     day_count_dict = days_over_threshold(data_dict=data_dict,
                                          threshold=threshold + constants.convert_kelvin, year=year)

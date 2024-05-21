@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import rasterio as rio
 from rasterio import features as feat
 from mpl_toolkits.basemap import Basemap
+import xarray as xr
 
 import matplotlib
 
@@ -136,7 +137,7 @@ def select_country_boundaries(polygon_df, country_name_list, plot=False):
     return country_df
 
 
-def select_data_in_multiple_country_polygons(array, polygon_df, plot=False):
+def select_data_in_multiple_country_polygons(array, polygon_df, plot=False, **kwargs):
     """
 
     :return:
@@ -148,7 +149,7 @@ def select_data_in_multiple_country_polygons(array, polygon_df, plot=False):
     count = 1
     for index, row in polygon_df.iterrows():
         print(str(count) + '/' + str(len(polygon_df)) + ': ' + row.shapeName)
-        data_dict[row.shapeName] = select_data_in_polygon(array, row, plot=plot, country=row.shapeName)
+        data_dict[row.shapeName] = select_data_in_polygon(array, row, plot=plot, country=row.shapeName, **kwargs)
         count += 1
 
     return data_dict
@@ -184,6 +185,17 @@ def select_data_in_polygon(array, polygon, plot=False, **kwargs):
 
     # Apply mask
     masked_data = apply_mask(array, mask)
+
+    # export country data as netcdf
+    if 'source_id' in kwargs.keys():
+        source_id = kwargs['source_id']
+    else:
+        source_id = 'GFDL-ESM4'
+
+    current_dir = os.getcwd().replace('\\', '/') + '/'
+    assert os.path.exists(current_dir + 'netCDF_countries/')
+    masked_data.compute().to_netcdf(
+        current_dir + 'netCDF_countries/' + kwargs['country'] + '_' + source_id + '_' + kwargs['experiment_id'] + '.nc')
 
     if plot:
         # check w/ data: fig
