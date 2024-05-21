@@ -51,7 +51,7 @@ def define_study_cities(current_dir=os.getcwd().replace('\\', '/') + '/', plot=F
     return city_coords_gdf
 
 
-def days_over_threshold(data_dict, threshold):
+def days_over_threshold(data_dict, threshold, year):
     """
 
     :return:
@@ -66,6 +66,9 @@ def days_over_threshold(data_dict, threshold):
 
         # replace any 0 values with nan
         summed_vals = summed_vals.where(summed_vals > 0)
+
+        if type(year) == list:
+            summed_vals = summed_vals / len(year)
 
         days_dict[country] = summed_vals
 
@@ -91,7 +94,7 @@ def days_over_threshold_stats(ds, polygon_df, threshold, year, source_id, test=F
                                                                       plot=plot)
 
     day_count_dict = days_over_threshold(data_dict=data_dict,
-                                         threshold=threshold + constants.convert_kelvin)
+                                         threshold=threshold + constants.convert_kelvin, year=year)
 
     mean_vals = []
     max_vals = []
@@ -121,5 +124,11 @@ def days_over_threshold_stats(ds, polygon_df, threshold, year, source_id, test=F
                'Mean temp': mean_temp, 'Median temp': median_temp, 'Max temp': max_temp, 'Min temp': min_temp}
     df = pd.DataFrame.from_dict(df_dict)
 
-    df.to_csv(os.getcwd().replace('\\', '/') + '/' + str(year) + '_days_over_' + str(
+    if type(year) == list:
+        year_label = str(year[0]) + '_to_' + str(year[-1])
+    else:
+        assert type(year) == int
+        year_label = str(year)
+
+    df.to_csv(os.getcwd().replace('\\', '/') + '/' + year_label + '_days_over_' + str(
         threshold) + '_' + source_id + test_flag + '.csv')
