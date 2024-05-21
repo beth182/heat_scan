@@ -41,6 +41,7 @@ def cmip6_via_pangeo(zstore, plot=False):
         # To plot the first time step
         ds.tas.isel(time=0).plot()
 
+    print('Pangeo ds retrieved')
     return ds
 
 
