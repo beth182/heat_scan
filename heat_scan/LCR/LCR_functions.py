@@ -51,28 +51,87 @@ def define_study_cities(current_dir=os.getcwd().replace('\\', '/') + '/', plot=F
     return city_coords_gdf
 
 
-def days_over_threshold(data_dict, threshold, year):
+def days_over_threshold(data_dict, threshold, year, source_id, **kwargs):
     """
 
     :return:
     """
     # ToDo: Docstring here
 
-    days_dict = {}
-    for country in data_dict:
-        ds = data_dict[country]
-        high_vals = xr.where(ds > threshold, 1, 0)  # set all temps over threshold = 1; others to 0
-        summed_vals = high_vals.sum(dim='time')
+    print(' ')
 
-        # replace any 0 values with nan
-        summed_vals = summed_vals.where(summed_vals > 0)
+    days_list = []
+
+    for country in data_dict:
+
+        print(country)
+
+        # check to see if file already exists
 
         if type(year) == list:
-            summed_vals = summed_vals / len(year)
+            year_label = str(year[0]) + '_to_' + str(year[-1])
+        else:
+            assert type(year) == int
+            year_label = str(year)
 
-        days_dict[country] = summed_vals
+        current_dir = os.getcwd().replace('\\', '/') + '/'
+        csv_dir = current_dir + 'stats_countries/' + year_label + '/'
+        assert os.path.exists(csv_dir)
 
-    return days_dict
+        this_filename = country + '_' + source_id + '_' + kwargs['experiment_id'] + '.csv'
+
+        if os.path.isfile(csv_dir + this_filename):
+
+            # the file exists, read the file
+            df = pd.read_csv(csv_dir + this_filename)
+
+            days_list.append(df)
+
+        else:
+
+            ds = data_dict[country]
+            high_vals = xr.where(ds.tasmax > threshold, 1, 0)  # set all temps over threshold = 1; others to 0
+            summed_vals = high_vals.sum(dim='time')
+
+            # replace any 0 values with nan
+            summed_vals = summed_vals.where(summed_vals > 0)
+
+            if type(year) == list:
+                summed_vals = summed_vals / len(year)
+
+            summed_vals = summed_vals.compute()
+
+            mean_val = np.nanmean(summed_vals)
+            max_val = np.nanmax(summed_vals)
+            min_val = np.nanmin(summed_vals)
+            median_val = np.nanmedian(summed_vals)
+
+            mean_temp = np.nanmean(summed_vals)
+            max_temp = np.nanmax(summed_vals)
+            min_temp = np.nanmin(summed_vals)
+            median_temp = np.nanmedian(summed_vals)
+
+            df_dict = {'Country': [country], 'Mean days': [mean_val], 'Median days': [median_val],
+                       'Max days': [max_val],
+                       'Min days': [min_val],
+                       'Mean temp': [mean_temp], 'Median temp': [median_temp], 'Max temp': [max_temp],
+                       'Min temp': [min_temp]}
+
+            df = pd.DataFrame.from_dict(df_dict)
+
+            df.to_csv(csv_dir + this_filename)
+
+            days_list.append(df)
+
+    combined_df = pd.concat(days_list)
+
+    combined_df.index = combined_df.Country
+    combined_df = combined_df.drop(columns=['Country'])
+
+    if 'Unnamed: 0' in combined_df.columns:
+        combined_df = combined_df.drop(columns=['Unnamed: 0'])
+
+    return combined_df
 
 
 def days_over_threshold_stats(ds, polygon_df, threshold, year, source_id, test=False, plot=False, **kwargs):
@@ -91,44 +150,19 @@ def days_over_threshold_stats(ds, polygon_df, threshold, year, source_id, test=F
     var_name = list(ds.keys())[0]
 
     data_dict = polygon_funs.select_data_in_multiple_country_polygons(array=ds[var_name], polygon_df=polygon_df,
-                                                                      plot=plot, **kwargs)
+                                                                      plot=plot, year=year, **kwargs)
 
-    day_count_dict = days_over_threshold(data_dict=data_dict,
-                                         threshold=threshold + constants.convert_kelvin, year=year)
+    df = days_over_threshold(data_dict=data_dict,
+                             threshold=threshold + constants.convert_kelvin, year=year, source_id=source_id,
+                             **kwargs)
 
-    mean_vals = []
-    max_vals = []
-    min_vals = []
-    median_vals = []
-
-    mean_temp = []
-    max_temp = []
-    min_temp = []
-    median_temp = []
-
-    countries_list = polygon_df.shapeName.to_list()
-
-    for country in countries_list:
-        mean_vals.append(np.nanmean(day_count_dict[country]))
-        max_vals.append(np.nanmax(day_count_dict[country]))
-        min_vals.append(np.nanmin(day_count_dict[country]))
-        median_vals.append(np.nanmedian(day_count_dict[country]))
-
-        mean_temp.append(np.nanmean(data_dict[country]))
-        max_temp.append(np.nanmax(data_dict[country]))
-        min_temp.append(np.nanmin(data_dict[country]))
-        median_temp.append(np.nanmedian(data_dict[country]))
-
-    df_dict = {'Country': countries_list, 'Mean days': mean_vals, 'Median days': median_vals, 'Max days': max_vals,
-               'Min days': min_vals,
-               'Mean temp': mean_temp, 'Median temp': median_temp, 'Max temp': max_temp, 'Min temp': min_temp}
-    df = pd.DataFrame.from_dict(df_dict)
-
+    # save combined csv
     if type(year) == list:
         year_label = str(year[0]) + '_to_' + str(year[-1])
     else:
         assert type(year) == int
         year_label = str(year)
 
-    df.to_csv(os.getcwd().replace('\\', '/') + '/' + year_label + '_days_over_' + str(
-        threshold) + '_' + source_id + test_flag + '.csv')
+    df.to_csv(os.getcwd().replace('\\', '/') + '/' + year_label + '_days_over_' + str(threshold) + '_' + source_id + test_flag + '.csv')
+
+    print('end')

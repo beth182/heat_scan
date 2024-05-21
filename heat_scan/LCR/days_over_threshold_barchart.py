@@ -28,7 +28,8 @@ def read_csvs_for_bar(years, current_dir=os.getcwd().replace('\\', '/') + '/', t
         assert os.path.isfile(csv_name)
 
         df = pd.read_csv(csv_name)
-        df = df.drop(columns=['Unnamed: 0'])
+        if 'Unnamed: 0' in df.columns:
+            df = df.drop(columns=['Unnamed: 0'])
         df = df.add_prefix(str(year) + ' ')
 
         df = df.fillna(0)
@@ -68,7 +69,7 @@ def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
     df_median_days = df_median_days.sort_values(by='2100', ascending=False)
 
     # color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange'}
-    color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange', '2090_to_2100': 'red'}
+    color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange', '2090_to_2100': 'red', '2080_to_2100': 'blue'}
     fig, ax = plt.subplots(1, figsize=(17, 12))
 
     df_median_days.plot.bar(ax=ax, color=color_df)
@@ -217,7 +218,7 @@ if __name__ == "__main__":
     source_id = 'GFDL-ESM4'
     # source_id = 'ACCESS-CM2'
 
-    years = [2100, '2090_to_2100']
+    years = [2100, '2090_to_2100', '2080_to_2100']
 
     # stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)
     grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)

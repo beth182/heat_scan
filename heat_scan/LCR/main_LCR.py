@@ -23,8 +23,8 @@ region = 'LCR'
 # source_id = 'CSIRO-ARCCSS'
 source_id = 'GFDL-ESM4'
 
-test = True
-# test = False
+# test = True
+test = False
 
 ########################################################################################################################
 country_df = polygon_funs.get_country_df(test=test, region=region)
