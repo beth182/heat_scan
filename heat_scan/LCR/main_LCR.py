@@ -11,7 +11,11 @@ from heat_scan.LCR import LCR_functions
 # year = 2050
 # year = 2100
 
-year = [2099, 2100]
+# between 2090 and 2100
+# year = list(range(2090, 2101))
+
+# between 2080 and 2100
+year = list(range(2080, 2101))
 
 experiment_id = 'ssp245'
 region = 'LCR'
