@@ -154,24 +154,36 @@ def select_data_in_multiple_country_polygons(array, polygon_df, plot=False):
     return data_dict
 
 
+def create_mask(polygon, array):
+    # Create a mask of the polygon
+    transform = rio.transform.from_bounds(array.lon[0], array.lat[-1], array.lon[-1], array.lat[0],
+                                          array.shape[-1], array.shape[-2])
+    mask = feat.geometry_mask([polygon.geometry],
+                              out_shape=(array.shape[-2], array.shape[-1]),
+                              transform=transform,
+                              all_touched=True,
+                              invert=True)
+
+    return mask
+
+
+def apply_mask(array, mask):
+    # Apply the spatial mask across all times using vectorized operations
+    mask_expanded = mask[None, :, :]  # Add a new axis for time dimension
+    return array.where(mask_expanded)
+
+
 def select_data_in_polygon(array, polygon, plot=False, **kwargs):
     """
     Function which grabs the data overlapping with a city boundary
     :return:
     """
 
-    # Create a mask of the polygon
-    transform = rio.transform.from_bounds(array.lon[0], array.lat[-1], array.lon[-1], array.lat[0],
-                                          array.shape[2], array.shape[1])
+    # Create mask
+    mask = create_mask(polygon, array)
 
-    mask = feat.geometry_mask([polygon.geometry],
-                              out_shape=(array.shape[1], array.shape[2]),
-                              transform=transform,
-                              all_touched=True,
-                              invert=True)
-
-    # Apply the spatial mask across all times
-    masked_data = array.where(mask)
+    # Apply mask
+    masked_data = apply_mask(array, mask)
 
     if plot:
         # check w/ data: fig
