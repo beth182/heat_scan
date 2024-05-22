@@ -66,10 +66,11 @@ def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
     df_median_days = read_csvs_for_bar(years=years, current_dir=current_dir, test=test)
 
     # sort by 2100
-    df_median_days = df_median_days.sort_values(by='2100', ascending=False)
+    # df_median_days = df_median_days.sort_values(by='2100', ascending=False)
+    df_median_days = df_median_days.sort_values(by='2090_to_2100', ascending=False)
 
     # color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange'}
-    color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange', '2090_to_2100': 'red', '2080_to_2100': 'blue'}
+    color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange', '2090_to_2100': 'orange', '2040_to_2050': 'purple', '2015_to_2025': 'black'}
     fig, ax = plt.subplots(1, figsize=(17, 12))
 
     df_median_days.plot.bar(ax=ax, color=color_df)
@@ -77,12 +78,14 @@ def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
     ax.tick_params(axis='x', labelsize=10)
     plt.xticks(rotation=45, ha="right")
 
-    plt.ylabel('Median number of days over threshold')
+    plt.ylabel('Number of days over threshold')
     plt.xlabel('Country')
 
     plt.title(
         'Number of days where daily maximum near-surface air temperature > ' + str(
             threshold) + '$^{\circ}$C for ' + ssp)
+
+    ax.legend(["2015 to 2025", "2040 to 2050", "2090 to 2100"])
 
     plt.savefig(
         current_dir + 'countries_days_over_' + str(
@@ -218,7 +221,7 @@ if __name__ == "__main__":
     source_id = 'GFDL-ESM4'
     # source_id = 'ACCESS-CM2'
 
-    years = [2100, '2090_to_2100', '2080_to_2100']
+    years = ['2015_to_2025', '2040_to_2050', '2090_to_2100']
 
     # stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)
     grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)
