@@ -9,13 +9,12 @@ matplotlib.use('TkAgg')
 matplotlib.rcParams.update({'font.size': 15})
 
 
-def read_csvs_for_bar(current_dir=os.getcwd().replace('\\', '/') + '/', test=False):
+def read_csvs_for_bar(years, current_dir=os.getcwd().replace('\\', '/') + '/', test=False):
     """
 
     :return:
     """
     # ToDo: docstring here
-    years = [2015, 2050, 2100]
 
     if test:
         test_flag = '_test'
@@ -29,26 +28,25 @@ def read_csvs_for_bar(current_dir=os.getcwd().replace('\\', '/') + '/', test=Fal
         assert os.path.isfile(csv_name)
 
         df = pd.read_csv(csv_name)
-        df = df.drop(columns=['Unnamed: 0'])
+        if 'Unnamed: 0' in df.columns:
+            df = df.drop(columns=['Unnamed: 0'])
         df = df.add_prefix(str(year) + ' ')
 
         df = df.fillna(0)
 
+        df = df[[str(year) + ' Country', str(year) + ' Median days']]
+        df = df.rename(columns={str(year) + ' Country': 'Country', str(year) + ' Median days': str(year)})
+        df.index = df.Country
+        df = df.drop(columns=['Country'])
+
         df_list.append(df)
 
-    df = pd.concat(df_list, axis=1)
-
-    df_median_days = df[['2015 Country', '2015 Median days', '2050 Median days', '2100 Median days']]
-    df_median_days = df_median_days.rename(
-        columns={'2015 Country': 'Country', '2015 Median days': '2015', '2050 Median days': '2050',
-                 '2100 Median days': '2100'})
-    df_median_days.index = df_median_days.Country
-    df_median_days = df_median_days.drop(columns=['Country'])
+    df_median_days = pd.concat(df_list, axis=1)
 
     return df_median_days
 
 
-def grouped_bar(threshold, ssp, source_id, current_dir=os.getcwd().replace('\\', '/') + '/', test=False):
+def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replace('\\', '/') + '/', test=False):
     """
 
     :param threshold:
@@ -65,12 +63,14 @@ def grouped_bar(threshold, ssp, source_id, current_dir=os.getcwd().replace('\\',
     else:
         test_flag = ''
 
-    df_median_days = read_csvs_for_bar(current_dir=current_dir, test=test)
+    df_median_days = read_csvs_for_bar(years=years, current_dir=current_dir, test=test)
 
     # sort by 2100
-    df_median_days = df_median_days.sort_values(by='2100', ascending=False)
+    # df_median_days = df_median_days.sort_values(by='2100', ascending=False)
+    df_median_days = df_median_days.sort_values(by='2090_to_2100', ascending=False)
 
-    color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange'}
+    # color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange'}
+    color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange', '2090_to_2100': 'orange', '2040_to_2050': 'purple', '2015_to_2025': 'black'}
     fig, ax = plt.subplots(1, figsize=(17, 12))
 
     df_median_days.plot.bar(ax=ax, color=color_df)
@@ -78,12 +78,14 @@ def grouped_bar(threshold, ssp, source_id, current_dir=os.getcwd().replace('\\',
     ax.tick_params(axis='x', labelsize=10)
     plt.xticks(rotation=45, ha="right")
 
-    plt.ylabel('Median number of days over threshold')
+    plt.ylabel('Number of days over threshold')
     plt.xlabel('Country')
 
     plt.title(
         'Number of days where daily maximum near-surface air temperature > ' + str(
             threshold) + '$^{\circ}$C for ' + ssp)
+
+    ax.legend(["2015 to 2025", "2040 to 2050", "2090 to 2100"])
 
     plt.savefig(
         current_dir + 'countries_days_over_' + str(
@@ -92,7 +94,7 @@ def grouped_bar(threshold, ssp, source_id, current_dir=os.getcwd().replace('\\',
     print('end')
 
 
-def stacked_bar(threshold, ssp, source_id, current_dir=os.getcwd().replace('\\', '/') + '/', test=False):
+def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replace('\\', '/') + '/', test=False):
     """
 
     :param threshold:
@@ -104,17 +106,19 @@ def stacked_bar(threshold, ssp, source_id, current_dir=os.getcwd().replace('\\',
     """
     # ToDo: docstring here
 
-    years = [2015, 2050, 2100]
+    # needs to be these years otherwise this function doesnt work
+    # ToDo: fix this issue
+    assert years == ['2015', '2050', '2100']
 
     if test:
         test_flag = '_test'
     else:
         test_flag = ''
 
-    df_median_days = read_csvs_for_bar(current_dir=current_dir, test=test)
+    df_median_days = read_csvs_for_bar(years=years, current_dir=current_dir, test=test)
 
     # sort by 2015
-    df_median_days = df_median_days.sort_values(by='2015', ascending=False)
+    # df_median_days = df_median_days.sort_values(by='2015', ascending=False)
 
     df_median_days['low'] = 0
     df_median_days['mid'] = 0
@@ -128,11 +132,11 @@ def stacked_bar(threshold, ssp, source_id, current_dir=os.getcwd().replace('\\',
 
         for year in years:
 
-            if row[str(year)] == row[['2015', '2050', '2100']].min():
+            if row[str(year)] == row[[str(i) for i in years]].min():
                 row['low'] = row[str(year)]
                 row['low_year'] = str(year)
 
-            elif row[str(year)] == row[['2015', '2050', '2100']].max():
+            elif row[str(year)] == row[[str(i) for i in years]].max():
                 row['high'] = row[str(year)]
                 row['high_year'] = str(year)
 
@@ -142,7 +146,7 @@ def stacked_bar(threshold, ssp, source_id, current_dir=os.getcwd().replace('\\',
 
         df_median_days.loc[index] = row
 
-    # get rif of zeros
+    # get rid of zeros
     zero_ind = np.where(df_median_days.mid_year == 0)[0]
     assert df_median_days['2050'][zero_ind].sum() == 0
     assert df_median_days['2015'][zero_ind].sum() == 0
@@ -217,7 +221,9 @@ if __name__ == "__main__":
     source_id = 'GFDL-ESM4'
     # source_id = 'ACCESS-CM2'
 
-    # stacked_bar(threshold=threshold, ssp=ssp, source_id=source_id)
-    grouped_bar(threshold=threshold, ssp=ssp, source_id=source_id)
+    years = ['2015_to_2025', '2040_to_2050', '2090_to_2100']
+
+    # stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)
+    grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)
 
     print('end')

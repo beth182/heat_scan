@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import rasterio as rio
 from rasterio import features as feat
 from mpl_toolkits.basemap import Basemap
+import xarray as xr
 
 import matplotlib
 
@@ -136,7 +137,7 @@ def select_country_boundaries(polygon_df, country_name_list, plot=False):
     return country_df
 
 
-def select_data_in_multiple_country_polygons(array, polygon_df, plot=False):
+def select_data_in_multiple_country_polygons(array, polygon_df, year, plot=False, **kwargs):
     """
 
     :return:
@@ -148,36 +149,82 @@ def select_data_in_multiple_country_polygons(array, polygon_df, plot=False):
     count = 1
     for index, row in polygon_df.iterrows():
         print(str(count) + '/' + str(len(polygon_df)) + ': ' + row.shapeName)
-        data_dict[row.shapeName] = select_data_in_polygon(array, row, plot=plot, country=row.shapeName)
+        data_dict[row.shapeName] = select_data_in_polygon(array, row, year, plot=plot, country=row.shapeName, **kwargs)
         count += 1
 
     return data_dict
 
 
-def select_data_in_polygon(array, polygon, plot=False, **kwargs):
+def create_mask(polygon, array):
+    # Create a mask of the polygon
+    transform = rio.transform.from_bounds(array.lon[0], array.lat[-1], array.lon[-1], array.lat[0],
+                                          array.shape[-1], array.shape[-2])
+    mask = feat.geometry_mask([polygon.geometry],
+                              out_shape=(array.shape[-2], array.shape[-1]),
+                              transform=transform,
+                              all_touched=True,
+                              invert=True)
+
+    return mask
+
+
+def apply_mask(array, mask):
+    # Apply the spatial mask across all times using vectorized operations
+    mask_expanded = mask[None, :, :]  # Add a new axis for time dimension
+    return array.where(mask_expanded)
+
+
+def select_data_in_polygon(array, polygon, year, plot=False, **kwargs):
     """
     Function which grabs the data overlapping with a city boundary
     :return:
     """
 
-    # Create a mask of the polygon
-    transform = rio.transform.from_bounds(array.lon[0], array.lat[-1], array.lon[-1], array.lat[0],
-                                          array.shape[2], array.shape[1])
+    # Check to see if country netCDF exists
 
-    mask = feat.geometry_mask([polygon.geometry],
-                              out_shape=(array.shape[1], array.shape[2]),
-                              transform=transform,
-                              all_touched=True,
-                              invert=True)
+    # dir to the netCDF folder
+    current_dir = os.getcwd().replace('\\', '/') + '/'
 
-    # Apply the spatial mask across all times
-    masked_data = array.where(mask)
+    if type(year) == list:
+        year_label = str(year[0]) + '_to_' + str(year[-1])
+    else:
+        assert type(year) == int
+        year_label = str(year)
+
+    netcdf_dir = current_dir + 'netCDF_countries/' + year_label + '/'
+    assert os.path.exists(netcdf_dir)
+
+    # check the folder for the run and country
+    # export country data as netcdf
+    if 'source_id' in kwargs.keys():
+        source_id = kwargs['source_id']
+    else:
+        source_id = 'GFDL-ESM4'
+    this_filename = kwargs['country'] + '_' + source_id + '_' + kwargs['experiment_id'] + '.nc'
+
+    if os.path.isfile(netcdf_dir + this_filename):
+
+        # read the netCDF
+        masked_data = xr.open_dataset(netcdf_dir + this_filename)
+
+    else:
+
+        # Create mask
+        mask = create_mask(polygon, array)
+
+        # Apply mask
+        masked_data = apply_mask(array, mask)
+
+        # save as netDCF
+        masked_data.compute().to_netcdf(
+            current_dir + 'netCDF_countries/' + year_label + '/' + kwargs['country'] + '_' + source_id + '_' + kwargs[
+                'experiment_id'] + '.nc')
 
     if plot:
         # check w/ data: fig
         fig = plt.figure(figsize=(8, 7))
         ax = plt.subplot(1, 1, 1)
-        masked_data.isel(time=0).plot(ax=ax, zorder=1)
+        masked_data.tasmax.isel(time=0).plot.imshow(ax=ax, zorder=1)
         gpd.GeoSeries([polygon.geometry]).plot(ax=ax, facecolor='r', zorder=2)
         # ax.scatter(point.x, point.y, c='k')
         assert 'country' in kwargs.keys()
