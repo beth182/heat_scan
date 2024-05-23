@@ -12,7 +12,10 @@ from heat_scan.tools.polygons import polygon_funs
 # year = 2100
 
 # between 2090 and 2100
-year = list(range(2090, 2101))
+# year = list(range(2090, 2101))
+
+# between 2040 and 2050
+year = list(range(2040, 2050))
 
 # between 2015 and 2025
 # year = list(range(2015, 2026))
@@ -35,7 +38,7 @@ country_df = polygon_funs.get_country_df(test=test, region=region)
 if source_id == 'GFDL-ESM4':
     pangeo_CMIP_funs.run_projections(threshold=30, variable_id='tasmax', experiment_id=experiment_id, year=year,
                                      region='LCR', source_id=source_id, country_df=country_df, day_threshold_stats=True,
-                                     test=test)
+                                     test=test, plot_days_threshold=True)
 
 else:
     assert source_id == 'CSIRO-ARCCSS'

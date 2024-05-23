@@ -143,7 +143,7 @@ def run_projections(year=None, region=None,
         variable_id = kwargs['variable_id']
         if variable_id == 'tasmax' or variable_id == 'tas':
             threshold = kwargs['threshold'] + constants.convert_kelvin
-        plotting_funs.plt_count_over_threshold(ds=ds, threshold=threshold, year=year, save_path=save_path,
+        plotting_funs.plt_count_over_threshold(ds=ds, year=year, save_path=save_path,
                                                region=region, **kwargs)
 
     if day_threshold_stats:

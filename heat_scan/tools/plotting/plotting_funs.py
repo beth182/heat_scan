@@ -4,6 +4,7 @@ import xarray as xr
 from matplotlib.patches import Path, PathPatch
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 import matplotlib
 
@@ -84,11 +85,14 @@ def plt_count_over_threshold(ds, threshold, year, save_path, region=False, **kwa
     # ToDo: add to docstring here
 
     # ToDo: repreat here: moved to fun in LCR
-    high_vals = xr.where(ds > threshold, 1, 0)  # set all temps over threshold = 1; others to 0
+    high_vals = xr.where(ds > threshold + constants.convert_kelvin, 1, 0)  # set all temps over threshold = 1; others to 0
     summed_vals = high_vals.sum(dim='time')
 
     # replace any 0 values with nan
     summed_vals = summed_vals.where(summed_vals > 0)
+
+    if type(year) == list:
+        summed_vals = summed_vals / len(year)
 
     # fig, (ax, cax) = plt.subplots(nrows=2, figsize=(15, 12), gridspec_kw={"height_ratios":[1, 0.05]})
     fig, ax = plt.subplots(1, figsize=(15, 12))
@@ -103,7 +107,6 @@ def plt_count_over_threshold(ds, threshold, year, save_path, region=False, **kwa
                                  vmin=1, vmax=365)
     white_ocean(ax=ax, countries=True)
 
-    from mpl_toolkits.axes_grid1.inset_locator import inset_axes
     cax = inset_axes(ax,
                      width="100%",
                      height="5%",
@@ -113,8 +116,13 @@ def plt_count_over_threshold(ds, threshold, year, save_path, region=False, **kwa
 
     fig.colorbar(im, cax=cax, orientation="horizontal", label='# of days')
 
-    ax.set_title('Number of days in ' + str(year) + ' where Daily Maximum Near-Surface Air Temperature > ' + str(
-        threshold - constants.convert_kelvin) + '$^{\circ}$C')
+    if type(year) == list:
+        year_label = str(year[0]) + '_to_' + str(year[-1])
+    else:
+        assert type(year) == int
+        year_label = str(year)
+
+    ax.set_title(year_label)
 
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(False)
@@ -129,13 +137,11 @@ def plt_count_over_threshold(ds, threshold, year, save_path, region=False, **kwa
         ax.set_xlim(constants.coord_contraints[region]['BL']['x'], constants.coord_contraints[region]['BR']['x'])
         ax.set_ylim(constants.coord_contraints[region]['BL']['y'], constants.coord_contraints[region]['TL']['y'])
 
-        plt.savefig(save_path + '/plots/' + region + '_' + kwargs['source_id'] + '_days_over_' + str(
-            int(threshold - constants.convert_kelvin)) + '_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)
+        plt.savefig(save_path + region + '_' + kwargs['source_id'] + '_days_over_' + str(threshold) + '_in_' + year_label.replace('_', ' ') + '.png', bbox_inches='tight', dpi=300)
 
     else:
 
         plt.savefig(
-            save_path + '/plots/' + 'global_' + kwargs['source_id'] + '_days_over_' + str(
-                int(threshold - constants.convert_kelvin)) + '_in_' + str(year) + '.png', bbox_inches='tight', dpi=300)
+            save_path + 'global_' + kwargs['source_id'] + '_days_over_' + str(threshold) + '_in_' + year_label.replace('_', ' ') + '.png', bbox_inches='tight', dpi=300)
 
     print('end')
