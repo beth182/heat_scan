@@ -40,9 +40,12 @@ def read_csvs_for_bar(years, current_dir=os.getcwd().replace('\\', '/') + '/', t
 
         df = df.fillna(0)
 
-        df = df[[str(year) + ' ' + scale, str(year) + ' Median days']]
-
         df = df.rename(columns={str(year) + ' ' + scale: scale, str(year) + ' Median days': str(year)})
+
+        if scale == 'City':
+            df['City'] = df['City'] + ', ' + df[str(year) + ' Country']
+
+        df = df[[scale, str(year)]]
 
         df.index = df[scale]
         df = df.drop(columns=[scale])
@@ -110,7 +113,7 @@ def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
 
 
 def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replace('\\', '/') + '/',
-                          test=False):
+                test=False, scale='Country'):
     """
 
     :param threshold:
@@ -124,17 +127,17 @@ def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
 
     # needs to be these years otherwise this function doesnt work
     # ToDo: fix this issue
-    assert years == ['2015', '2050', '2100']
+    assert years == ['2015_to_2025', '2040_to_2050', '2090_to_2100']
 
     if test:
         test_flag = '_test'
     else:
         test_flag = ''
 
-    df_median_days = read_csvs_for_bar(years=years, current_dir=current_dir, test=test, scale='Country')
+    df_median_days = read_csvs_for_bar(years=years, current_dir=current_dir, test=test, scale=scale)
 
-    # sort by 2015
-    # df_median_days = df_median_days.sort_values(by='2015', ascending=False)
+    # sort by 2100
+    df_median_days = df_median_days.sort_values(by='2090_to_2100', ascending=False)
 
     df_median_days['low'] = 0
     df_median_days['mid'] = 0
@@ -160,13 +163,14 @@ def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
                 row['mid'] = row[str(year)]
                 row['mid_year'] = str(year)
 
-        df_median_days.loc[index] = row
+            df_median_days.loc[index] = row
 
     # get rid of zeros
     zero_ind = np.where(df_median_days.mid_year == 0)[0]
-    assert df_median_days['2050'][zero_ind].sum() == 0
-    assert df_median_days['2015'][zero_ind].sum() == 0
-    df_median_days['mid_year'][zero_ind] = '2015'
+
+    # assert df_median_days['2040_to_2050'][zero_ind].sum() == 0
+    # assert df_median_days['2015_to_2025'][zero_ind].sum() == 0
+    df_median_days['mid_year'][zero_ind] = '2015_to_2025'
 
     low_df = df_median_days[['low', 'low_year']]
     low_df = low_df.pivot_table(values='low', index=low_df.index, columns='low_year', aggfunc='first')
@@ -196,37 +200,45 @@ def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
     high_df = high_df.reindex(df_median_days.index)
     mid_df = mid_df.reindex(df_median_days.index)
 
-    color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange'}
+    color_df = {'2015_to_2025': 'black', '2040_to_2050': 'purple', '2090_to_2100': 'orange'}
     fig, ax = plt.subplots(1, figsize=(17, 12))
 
     # plot in correct order
-    high_df['2100'].plot.bar(ax=ax, color=color_df['2100'])
-    high_df['2050'].plot.bar(ax=ax, color=color_df['2050'])
-    high_df['2015'].plot.bar(ax=ax, color=color_df['2015'])
+    high_df['2090_to_2100'].plot.bar(ax=ax, color=color_df['2090_to_2100'], width=0.80)
+    high_df['2040_to_2050'].plot.bar(ax=ax, color=color_df['2040_to_2050'], width=0.80)
+    high_df['2015_to_2025'].plot.bar(ax=ax, color=color_df['2015_to_2025'], width=0.80)
 
-    mid_df['2100'].plot.bar(ax=ax, color=color_df['2100'], label='')
-    mid_df['2050'].plot.bar(ax=ax, color=color_df['2050'], label='')
-    mid_df['2015'].plot.bar(ax=ax, color=color_df['2015'], label='')
+    mid_df['2090_to_2100'].plot.bar(ax=ax, color=color_df['2090_to_2100'], label='', width=0.80)
+    mid_df['2040_to_2050'].plot.bar(ax=ax, color=color_df['2040_to_2050'], label='', width=0.80)
+    mid_df['2015_to_2025'].plot.bar(ax=ax, color=color_df['2015_to_2025'], label='', width=0.80)
 
-    low_df['2100'].plot.bar(ax=ax, color=color_df['2100'], label='')
-    low_df['2050'].plot.bar(ax=ax, color=color_df['2050'], label='')
-    low_df['2015'].plot.bar(ax=ax, color=color_df['2015'], label='')
+    low_df['2090_to_2100'].plot.bar(ax=ax, color=color_df['2090_to_2100'], label='', width=0.80)
+    low_df['2040_to_2050'].plot.bar(ax=ax, color=color_df['2040_to_2050'], label='', width=0.80)
+    low_df['2015_to_2025'].plot.bar(ax=ax, color=color_df['2015_to_2025'], label='', width=0.80)
 
-    plt.legend()
-    ax.tick_params(axis='x', labelsize=10)
+    plt.legend(["2015 to 2025", "2040 to 2050", "2090 to 2100"])
+
+    if scale == 'Country':
+        font_size = 10
+    else:
+        assert scale == 'City'
+        font_size = 4
+
+    ax.tick_params(axis='x', labelsize=font_size)
     plt.xticks(rotation=45, ha="right")
 
-    plt.ylabel('Median number of days over threshold')
-    plt.xlabel('Country')
+    plt.ylabel('Number of days over threshold')
+    plt.xlabel(scale)
 
     plt.title(
         'Number of days where daily maximum near-surface air temperature > ' + str(
-            threshold) + '$^{\circ}$C for ' + ssp)
+            threshold) + '$^{\circ}$C for ' + ssp + ': ' + scale + '-scale')
 
     plt.savefig(
-        current_dir + 'countries_days_over_' + str(
+        current_dir + scale + '_days_over_' + str(
             threshold) + '_' + ssp + '_' + source_id + test_flag + '_stacked.png',
         bbox_inches='tight', dpi=300)
+
     print('end')
 
 
@@ -239,7 +251,10 @@ if __name__ == "__main__":
 
     years = ['2015_to_2025', '2040_to_2050', '2090_to_2100']
 
-    # stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)
-    grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='Country')
+    # stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='Country')
+    stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='City')
+
+    # grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='Country')
+    # grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='City')
 
     print('end')
