@@ -9,7 +9,7 @@ matplotlib.use('TkAgg')
 matplotlib.rcParams.update({'font.size': 15})
 
 
-def read_csvs_for_bar(years, current_dir=os.getcwd().replace('\\', '/') + '/', test=False):
+def read_csvs_for_bar(years, current_dir=os.getcwd().replace('\\', '/') + '/', test=False, scale='Country'):
     """
 
     :return:
@@ -24,8 +24,13 @@ def read_csvs_for_bar(years, current_dir=os.getcwd().replace('\\', '/') + '/', t
     df_list = []
     for year in years:
         # read in csv files
-        # csv_name = current_dir + str(year) + '_days_over_' + str(threshold) + '_' + source_id + test_flag + '.csv'
-        csv_name = current_dir + 'cities_GFDL-ESM4_ssp245.csv'
+
+        if scale == 'Country':
+            csv_name = current_dir + str(year) + '_days_over_' + str(threshold) + '_' + source_id + test_flag + '.csv'
+        else:
+            assert scale == 'City'
+            csv_name = current_dir + 'cities_' + year + '_GFDL-ESM4_ssp245.csv'
+
         assert os.path.isfile(csv_name)
 
         df = pd.read_csv(csv_name)
@@ -35,14 +40,12 @@ def read_csvs_for_bar(years, current_dir=os.getcwd().replace('\\', '/') + '/', t
 
         df = df.fillna(0)
 
-        # df = df[[str(year) + ' Country', str(year) + ' Median days']]
-        df = df[[str(year) + ' City', str(year) + ' Median days']]
-        # df = df.rename(columns={str(year) + ' Country': 'Country', str(year) + ' Median days': str(year)})
-        df = df.rename(columns={str(year) + ' City': 'City', str(year) + ' Median days': str(year)})
-        df.index = df.City
-        # df.index = df.Country
-        # df = df.drop(columns=['Country'])
-        df = df.drop(columns=['City'])
+        df = df[[str(year) + ' ' + scale, str(year) + ' Median days']]
+
+        df = df.rename(columns={str(year) + ' ' + scale: scale, str(year) + ' Median days': str(year)})
+
+        df.index = df[scale]
+        df = df.drop(columns=[scale])
 
         df_list.append(df)
 
@@ -51,7 +54,8 @@ def read_csvs_for_bar(years, current_dir=os.getcwd().replace('\\', '/') + '/', t
     return df_median_days
 
 
-def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replace('\\', '/') + '/', test=False):
+def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replace('\\', '/') + '/', test=False,
+                scale='Country'):
     """
 
     :param threshold:
@@ -68,39 +72,45 @@ def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
     else:
         test_flag = ''
 
-    df_median_days = read_csvs_for_bar(years=years, current_dir=current_dir, test=test)
+    df_median_days = read_csvs_for_bar(years=years, current_dir=current_dir, test=test, scale=scale)
 
     # sort by 2100
-    # df_median_days = df_median_days.sort_values(by='2100', ascending=False)
-    # df_median_days = df_median_days.sort_values(by='2090_to_2100', ascending=False)
+    df_median_days = df_median_days.sort_values(by='2090_to_2100', ascending=False)
 
-    # color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange'}
-    color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange', '2090_to_2100': 'orange', '2040_to_2050': 'purple', '2015_to_2025': 'black'}
+    color_df = {'2090_to_2100': 'orange', '2040_to_2050': 'purple', '2015_to_2025': 'black'}
+
     fig, ax = plt.subplots(1, figsize=(17, 12))
 
     df_median_days.plot.bar(ax=ax, color=color_df)
 
-    # ax.tick_params(axis='x', labelsize=10)
-    ax.tick_params(axis='x', labelsize=5)
+    if scale == 'Country':
+        font_size = 10
+    else:
+        assert scale == 'City'
+        font_size = 5
+
+    ax.tick_params(axis='x', labelsize=font_size)
     plt.xticks(rotation=45, ha="right")
 
     plt.ylabel('Number of days over threshold')
-    plt.xlabel('Country')
+    plt.xlabel(scale)
 
     plt.title(
         'Number of days where daily maximum near-surface air temperature > ' + str(
-            threshold) + '$^{\circ}$C for ' + ssp)
+            threshold) + '$^{\circ}$C for ' + ssp + ': ' + scale + '-scale')
 
     ax.legend(["2015 to 2025", "2040 to 2050", "2090 to 2100"])
 
     plt.savefig(
-        current_dir + 'countries_days_over_' + str(
+        current_dir + scale + '_days_over_' + str(
             threshold) + '_' + ssp + '_' + source_id + test_flag + '_grouped.png',
         bbox_inches='tight', dpi=300)
+
     print('end')
 
 
-def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replace('\\', '/') + '/', test=False):
+def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replace('\\', '/') + '/',
+                          test=False):
     """
 
     :param threshold:
@@ -121,7 +131,7 @@ def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
     else:
         test_flag = ''
 
-    df_median_days = read_csvs_for_bar(years=years, current_dir=current_dir, test=test)
+    df_median_days = read_csvs_for_bar(years=years, current_dir=current_dir, test=test, scale='Country')
 
     # sort by 2015
     # df_median_days = df_median_days.sort_values(by='2015', ascending=False)
@@ -227,10 +237,9 @@ if __name__ == "__main__":
     source_id = 'GFDL-ESM4'
     # source_id = 'ACCESS-CM2'
 
-    # years = ['2015_to_2025', '2040_to_2050', '2090_to_2100']
-    years = ['2015_to_2025']
+    years = ['2015_to_2025', '2040_to_2050', '2090_to_2100']
 
     # stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)
-    grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)
+    grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='Country')
 
     print('end')
