@@ -24,7 +24,8 @@ def read_csvs_for_bar(years, current_dir=os.getcwd().replace('\\', '/') + '/', t
     df_list = []
     for year in years:
         # read in csv files
-        csv_name = current_dir + str(year) + '_days_over_' + str(threshold) + '_' + source_id + test_flag + '.csv'
+        # csv_name = current_dir + str(year) + '_days_over_' + str(threshold) + '_' + source_id + test_flag + '.csv'
+        csv_name = current_dir + 'cities_GFDL-ESM4_ssp245.csv'
         assert os.path.isfile(csv_name)
 
         df = pd.read_csv(csv_name)
@@ -34,10 +35,14 @@ def read_csvs_for_bar(years, current_dir=os.getcwd().replace('\\', '/') + '/', t
 
         df = df.fillna(0)
 
-        df = df[[str(year) + ' Country', str(year) + ' Median days']]
-        df = df.rename(columns={str(year) + ' Country': 'Country', str(year) + ' Median days': str(year)})
-        df.index = df.Country
-        df = df.drop(columns=['Country'])
+        # df = df[[str(year) + ' Country', str(year) + ' Median days']]
+        df = df[[str(year) + ' City', str(year) + ' Median days']]
+        # df = df.rename(columns={str(year) + ' Country': 'Country', str(year) + ' Median days': str(year)})
+        df = df.rename(columns={str(year) + ' City': 'City', str(year) + ' Median days': str(year)})
+        df.index = df.City
+        # df.index = df.Country
+        # df = df.drop(columns=['Country'])
+        df = df.drop(columns=['City'])
 
         df_list.append(df)
 
@@ -67,7 +72,7 @@ def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
 
     # sort by 2100
     # df_median_days = df_median_days.sort_values(by='2100', ascending=False)
-    df_median_days = df_median_days.sort_values(by='2090_to_2100', ascending=False)
+    # df_median_days = df_median_days.sort_values(by='2090_to_2100', ascending=False)
 
     # color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange'}
     color_df = {'2015': 'black', '2050': 'purple', '2100': 'orange', '2090_to_2100': 'orange', '2040_to_2050': 'purple', '2015_to_2025': 'black'}
@@ -75,7 +80,8 @@ def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
 
     df_median_days.plot.bar(ax=ax, color=color_df)
 
-    ax.tick_params(axis='x', labelsize=10)
+    # ax.tick_params(axis='x', labelsize=10)
+    ax.tick_params(axis='x', labelsize=5)
     plt.xticks(rotation=45, ha="right")
 
     plt.ylabel('Number of days over threshold')
@@ -221,7 +227,8 @@ if __name__ == "__main__":
     source_id = 'GFDL-ESM4'
     # source_id = 'ACCESS-CM2'
 
-    years = ['2015_to_2025', '2040_to_2050', '2090_to_2100']
+    # years = ['2015_to_2025', '2040_to_2050', '2090_to_2100']
+    years = ['2015_to_2025']
 
     # stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)
     grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id)

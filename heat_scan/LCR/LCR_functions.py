@@ -32,21 +32,16 @@ def define_study_cities(current_dir=os.getcwd().replace('\\', '/') + '/', plot=F
     # refer to the draft report, and the UHI study in LCR paper etc.
 
     # read in the city csv
-    city_coord_file_path = current_dir + 'city_coords.csv'
+    city_coord_file_path = current_dir + 'UN_2015_cities_over_300k.csv'
 
     # confirm the file exists
     assert os.path.isfile(city_coord_file_path)
 
     city_coords = pd.read_csv(city_coord_file_path)
 
-    geometry = [Point(xy) for xy in zip(city_coords.Lon, city_coords.Lat)]
-    city_coords = city_coords.drop(['Lon', 'Lat'], axis=1)
+    geometry = [Point(xy) for xy in zip(city_coords.longitude, city_coords.latitude)]
+    city_coords = city_coords.drop(['longitude', 'latitude'], axis=1)
     city_coords_gdf = gpd.GeoDataFrame(city_coords, crs="EPSG:4326", geometry=geometry)
-
-    # sanity plot
-    if plot:
-        plt.scatter(city_coords.Lon[0], city_coords.Lat[0])
-        plt.show()
 
     return city_coords_gdf
 

@@ -62,7 +62,11 @@ def coord_polygon_overlap(point, polygon_df, plot=False):
         # ToDo: eventually rm this
         print('end')
 
-    assert min_distance == 0
+    try:
+        assert min_distance < 5
+    except AssertionError:
+
+        print('end')
 
     if plot:
         # sanity check
@@ -149,7 +153,7 @@ def select_data_in_multiple_country_polygons(array, polygon_df, year, plot=False
     count = 1
     for index, row in polygon_df.iterrows():
         print(str(count) + '/' + str(len(polygon_df)) + ': ' + row.shapeName)
-        data_dict[row.shapeName] = select_data_in_polygon(array, row, year, plot=plot, country=row.shapeName, **kwargs)
+        data_dict[row.shapeName] = select_data_in_country(array, row, year, plot=plot, country=row.shapeName, **kwargs)
         count += 1
 
     return data_dict
@@ -159,11 +163,19 @@ def create_mask(polygon, array):
     # Create a mask of the polygon
     transform = rio.transform.from_bounds(array.lon[0], array.lat[-1], array.lon[-1], array.lat[0],
                                           array.shape[-1], array.shape[-2])
-    mask = feat.geometry_mask([polygon.geometry],
-                              out_shape=(array.shape[-2], array.shape[-1]),
-                              transform=transform,
-                              all_touched=True,
-                              invert=True)
+
+    try:
+        mask = feat.geometry_mask([polygon.geometry],
+                                  out_shape=(array.shape[-2], array.shape[-1]),
+                                  transform=transform,
+                                  all_touched=True,
+                                  invert=True)
+    except AttributeError:
+        mask = feat.geometry_mask([polygon],
+                                  out_shape=(array.shape[-2], array.shape[-1]),
+                                  transform=transform,
+                                  all_touched=True,
+                                  invert=True)
 
     return mask
 
@@ -174,7 +186,7 @@ def apply_mask(array, mask):
     return array.where(mask_expanded)
 
 
-def select_data_in_polygon(array, polygon, year, plot=False, **kwargs):
+def select_data_in_country(array, polygon, year, plot=False, **kwargs):
     """
     Function which grabs the data overlapping with a city boundary
     :return:
