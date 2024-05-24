@@ -113,7 +113,7 @@ def grouped_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
 
 
 def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replace('\\', '/') + '/',
-                test=False, scale='Country'):
+                test=False, scale='Country', top=False):
     """
 
     :param threshold:
@@ -138,6 +138,9 @@ def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
 
     # sort by 2100
     df_median_days = df_median_days.sort_values(by='2090_to_2100', ascending=False)
+
+    if top:
+        df_median_days = df_median_days.iloc[np.where(df_median_days['2090_to_2100'] - df_median_days['2015_to_2025'] > 70)[0]]
 
     df_median_days['low'] = 0
     df_median_days['mid'] = 0
@@ -222,7 +225,10 @@ def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
         font_size = 10
     else:
         assert scale == 'City'
-        font_size = 4
+        if top:
+            font_size = 10
+        else:
+            font_size = 4
 
     ax.tick_params(axis='x', labelsize=font_size)
     plt.xticks(rotation=45, ha="right")
@@ -233,11 +239,16 @@ def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
     plt.title(
         'Number of days where daily maximum near-surface air temperature > ' + str(
             threshold) + '$^{\circ}$C for ' + ssp + ': ' + scale + '-scale')
-
-    plt.savefig(
-        current_dir + scale + '_days_over_' + str(
-            threshold) + '_' + ssp + '_' + source_id + test_flag + '_stacked.png',
-        bbox_inches='tight', dpi=300)
+    if top:
+        plt.savefig(
+            current_dir + scale + '_days_over_' + str(
+                threshold) + '_' + ssp + '_' + source_id + test_flag + '_stacked_top.png',
+            bbox_inches='tight', dpi=300)
+    else:
+        plt.savefig(
+            current_dir + scale + '_days_over_' + str(
+                threshold) + '_' + ssp + '_' + source_id + test_flag + '_stacked.png',
+            bbox_inches='tight', dpi=300)
 
     print('end')
 
@@ -252,7 +263,7 @@ if __name__ == "__main__":
     years = ['2015_to_2025', '2040_to_2050', '2090_to_2100']
 
     # stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='Country')
-    stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='City')
+    stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='City', top=True)
 
     # grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='Country')
     # grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='City')
