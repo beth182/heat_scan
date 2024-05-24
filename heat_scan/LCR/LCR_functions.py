@@ -19,12 +19,7 @@ matplotlib.use('TkAgg')
 
 def define_study_cities(current_dir=os.getcwd().replace('\\', '/') + '/', plot=False):
     """
-    CSV with city choices manually created.
-    ChatGPT asked to pull 100 cities with largest population in LCR.
-    ChatGPT asked to produce rough coordinates for these cities.
-    These are saved in csv file city_coords.csv.
-    These are read in here as geo df.
-
+    UN_2015_cities_over_300k population info from United Nations World Urbanization Prospects 2018, via: https://population.un.org/wup/DataQuery/
     :return city_coords_gdf: GeoDataFrame of study cities.
     """
 
