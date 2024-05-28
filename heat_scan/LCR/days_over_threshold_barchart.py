@@ -207,9 +207,9 @@ def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
     fig, ax = plt.subplots(1, figsize=(17, 12))
 
     # plot in correct order
-    high_df['2090_to_2100'].plot.bar(ax=ax, color=color_df['2090_to_2100'], width=0.80)
-    high_df['2040_to_2050'].plot.bar(ax=ax, color=color_df['2040_to_2050'], width=0.80)
-    high_df['2015_to_2025'].plot.bar(ax=ax, color=color_df['2015_to_2025'], width=0.80)
+    high_df['2090_to_2100'].plot.bar(ax=ax, color=color_df['2090_to_2100'], width=0.80, label='2090 to 2100')
+    high_df['2040_to_2050'].plot.bar(ax=ax, color=color_df['2040_to_2050'], width=0.80, label='2040 to 2050')
+    high_df['2015_to_2025'].plot.bar(ax=ax, color=color_df['2015_to_2025'], width=0.80, label='2015 to 2025')
 
     mid_df['2090_to_2100'].plot.bar(ax=ax, color=color_df['2090_to_2100'], label='', width=0.80)
     mid_df['2040_to_2050'].plot.bar(ax=ax, color=color_df['2040_to_2050'], label='', width=0.80)
@@ -219,7 +219,7 @@ def stacked_bar(years, threshold, ssp, source_id, current_dir=os.getcwd().replac
     low_df['2040_to_2050'].plot.bar(ax=ax, color=color_df['2040_to_2050'], label='', width=0.80)
     low_df['2015_to_2025'].plot.bar(ax=ax, color=color_df['2015_to_2025'], label='', width=0.80)
 
-    plt.legend(["2015 to 2025", "2040 to 2050", "2090 to 2100"])
+    plt.legend()
 
     if scale == 'Country':
         font_size = 10
@@ -263,7 +263,8 @@ if __name__ == "__main__":
     years = ['2015_to_2025', '2040_to_2050', '2090_to_2100']
 
     # stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='Country')
-    stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='City', top=True)
+    # stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='City', top=True)
+    stacked_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='City', top=False)
 
     # grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='Country')
     # grouped_bar(years=years, threshold=threshold, ssp=ssp, source_id=source_id, scale='City')
