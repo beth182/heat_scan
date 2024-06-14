@@ -174,11 +174,27 @@ ax2.set_xlim(6, 20)
 ax2.set_title('Winter', c='blue')
 ax2.grid(True)
 
+ax1.axhspan(9, 26, alpha=0.2, color='green')
+ax2.axhspan(9, 26, alpha=0.2, color='green')
+
+ax1.axhspan(26, 32, alpha=0.8, color='lightgoldenrodyellow')
+ax2.axhspan(26, 32, alpha=0.8, color='lightgoldenrodyellow')
+
+ax1.axhspan(32, 38, alpha=0.3, color='goldenrod')
+ax2.axhspan(32, 38, alpha=0.3, color='goldenrod')
+
+ax1.axhspan(38, 46, alpha=0.3, color='indianred')
+ax2.axhspan(38, 46, alpha=0.3, color='indianred')
+
+ax1.axhspan(46, 100, alpha=0.3, color='darkred')
+ax2.axhspan(46, 100, alpha=0.3, color='darkred')
+
 # Shared xlabel
 fig.supxlabel('Hour', x=0.515, y=0.05)
 
 fig.tight_layout()
 # fig.savefig(save_path + 'UTCI_V4.png', dpi=300)
+
 fig.savefig(save_path + 'UTCI.png', dpi=300)
 
 print('end')

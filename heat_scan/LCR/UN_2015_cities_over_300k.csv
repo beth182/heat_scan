@@ -1,209 +1,209 @@
-﻿Region,Country,City,Pop,latitude,longitude
-Caribbean,Cuba,Camaguey,304,21.3791765,-77.9183681
-Caribbean,Cuba,La Habana,2124,23.135305,-82.3589631
-Caribbean,Cuba,Santiago de Cuba,431,20.0214637,-75.8294928
-Caribbean,Dominican Republic,Santiago,626,19.4503932,-70.6909047
-Caribbean,Dominican Republic,Santo Domingo,2945,18.4801972,-69.942111
-Caribbean,Haiti,Port-au-Prince,2439,18.547327,-72.3395928
-Caribbean,Jamaica,Kingston,587,17.9712148,-76.7928128
-Caribbean,Trinidad & Tobago,Port of Spain,545,10.6572678,-61.5180173
-Central America,Costa Rica,Alajuela,280,10.45233165,-84.46632843
-Central America,Costa Rica,Heredia,326,10.3767813,-84.01397214
-Central America,Costa Rica,San José,1297,9.9325427,-84.0795782
-Central America,El Salvador,San Salvador,1099,13.6989939,-89.1914249
-Central America,Guatemala,Ciudad de Guatemala,2738,14.6424667,-90.5131361
-Central America,Honduras,San Pedro Sula,767,15.49363865,-88.00776696
-Central America,Honduras,Tegucigalpa,1233,14.1057433,-87.2040052
-Central America,Mexico,Acapulco de Juárez,920,16.8680495,-99.8940182
-Central America,Mexico,Aguascalientes,1017,22.0000001,-102.5000001
-Central America,Mexico,Cancún,802,21.1618955,-86.8514988
-Central America,Mexico,Celaya,640,20.521788,-100.8140458
-Central America,Mexico,Chihuahua,950,28.5000001,-106.0000001
-Central America,Mexico,Ciudad de México,21340,19.4326296,-99.1331785
-Central America,Mexico,Ciudad Juárez,1423,31.7372575,-106.485655
-Central America,Mexico,Ciudad Obregón,334,27.4846619,-109.9337782
-Central America,Mexico,Ciudad Victoria,333,23.7389846,-99.1441352
-Central America,Mexico,Coatzacoalcos,371,18.1396787,-94.4501731
-Central America,Mexico,Colima,371,19.166667,-104
-Central America,Mexico,Córdoba,334,18.8944704,-96.9352891
-Central America,Mexico,Cuautla Morelos,474,18.8290118,-98.9432244
-Central America,Mexico,Cuernavaca,998,18.9218274,-99.2342282
-Central America,Mexico,Culiacán,754,24.7978965,-107.393395
-Central America,Mexico,Durango,573,24.833333,-104.833333
-Central America,Mexico,Ensenada,306,31.8658887,-116.602983
-Central America,Mexico,Guadalajara,4796,20.6720375,-103.338396
-Central America,Mexico,Hermosillo,789,28.96893455,-111.4473169
-Central America,Mexico,Irapuato,416,20.6758761,-101.3521052
-Central America,Mexico,La Laguna,1313,20.443863,-97.44505868
-Central America,Mexico,León de los Aldamas,1714,21.1315594,-101.6746905
-Central America,Mexico,Los Mochis,284,25.7928058,-108.990188
-Central America,Mexico,Matamoros,525,25.8810158,-97.5064866
-Central America,Mexico,Mazatlán,417,23.2035785,-106.4208391
-Central America,Mexico,Mérida,1064,20.9670759,-89.6237402
-Central America,Mexico,Mexicali,1026,32.6405247,-115.474899
-Central America,Mexico,Minatitlán,378,17.992773,-94.5567103
-Central America,Mexico,Monclova,339,26.8999988,-101.4171173
-Central America,Mexico,Monterrey,4478,25.6802019,-100.315258
-Central America,Mexico,Morelia,888,19.7027116,-101.1923818
-Central America,Mexico,Nuevo Laredo,414,27.4930466,-99.5074055
-Central America,Mexico,Oaxaca de Juárez,655,17.0604663,-96.7253575
-Central America,Mexico,Orizaba,451,18.8497366,-97.1060062
-Central America,Mexico,Pachuca de Soto,570,20.1165413,-98.7413535
-Central America,Mexico,Poza Rica de Hidalgo,538,20.53765745,-97.4451248
-Central America,Mexico,Puebla,2955,18.833333,-98
-Central America,Mexico,Puerto Vallarta,444,20.6407176,-105.220306
-Central America,Mexico,Querétaro,1214,20.8052225,-99.8837376
-Central America,Mexico,Reynosa,810,26.0907673,-98.2788191
-Central America,Mexico,Saltillo,901,25.4230425,-100.9927509
-Central America,Mexico,San Luis Potosí,1126,22.5000001,-100.4949145
-Central America,Mexico,Tampico,928,22.2157619,-97.8577713
-Central America,Mexico,Tehuacán,319,18.4599877,-97.3903616
-Central America,Mexico,Tepic,485,21.5119156,-104.8915889
-Central America,Mexico,Tijuana,1939,32.5317397,-117.019529
-Central America,Mexico,Tlaxcala,546,19.416667,-98.166667
-Central America,Mexico,Toluca de Lerdo,2189,19.292545,-99.6569007
-Central America,Mexico,Tuxtla Gutierrez,763,16.753801,-93.115959
-Central America,Mexico,Uruapán,296,19.4060961,-102.0343072
-Central America,Mexico,Veracruz,864,19.333333,-96.666667
-Central America,Mexico,Villahermosa,825,17.9884657,-92.9366326
-Central America,Mexico,Xalapa,719,19.5408338,-96.9146374
-Central America,Mexico,Zacatecas,338,23.0823582,-103.2085698
-Central America,Nicaragua,Managua,1027,12.1544035,-86.2737642
-Central America,Panama,Ciudad de Panamá,1673,8.9714493,-79.5341802
-South America,Argentina,Bahia Blanca,307,-38.7176522,-62.2654871
-South America,Argentina,Buenos Aires,14706,-34.6037181,-58.38153
-South America,Argentina,Córdoba,1514,-31.4166867,-64.1834193
-South America,Argentina,Corrientes,381,-28.99565115,-57.81245797
-South America,Argentina,La Plata,834,-34.9206797,-57.9537638
-South America,Argentina,Mar Del Plata,635,-37.4500273,-61.939304
-South America,Argentina,Mendoza,1075,-34.78709305,-68.43818677
-South America,Argentina,Neuquén-Plottier-Cipolletti,373,-38.94809058,-68.22978918
-South America,Argentina,Posadas,352,-27.4035083,-55.94971181
-South America,Argentina,Resistencia,408,-27.6048829,-59.19320025
-South America,Argentina,Rosario,1423,-32.9593609,-60.6617024
-South America,Argentina,Salta,622,-25.1076701,-64.3494964
-South America,Argentina,San Juan,516,-30.7054363,-69.1988222
-South America,Argentina,San Miguel de Tucumán,913,-26.8303703,-65.2038133
-South America,Argentina,San Salvador de Jujuy,337,-24.1852569,-65.2994789
-South America,Argentina,Santa Fe,527,-30.3154739,-61.1645076
-South America,Argentina,Santiago Del Estero,404,-27.6431016,-63.5408542
-South America,Bolivia,Cochabamba,1136,-17.3936114,-66.1568983
-South America,Bolivia,La Paz,1745,-16.4955455,-68.1336229
-South America,Bolivia,Oruro,282,-18.666667,-67.666667
-South America,Bolivia,Santa Cruz,1532,-17.333333,-61.5
-South America,Brazil,Anápolis,357,-16.3332828,-48.9525756
-South America,Brazil,Aracaju,909,-10.9162061,-37.0774655
-South America,Brazil,Baixada Santista,1779,-24.04565585,-46.70645235
-South America,Brazil,Bauru,357,-22.3218102,-49.0705863
-South America,Brazil,Belém,2180,-1.45056,-48.4682453
-South America,Brazil,Belo Horizonte,5754,-19.9227318,-43.9450948
-South America,Brazil,Blumenau,321,-26.9195567,-49.0658025
-South America,Brazil,Boa Vista,310,2.8208478,-60.6719582
-South America,Brazil,Brasília,4168,-10.3333333,-53.2
-South America,Brazil,Campina Grande,384,-7.2246743,-35.8771292
-South America,Brazil,Campinas,3047,-22.9056391,-47.059564
-South America,Brazil,Campo Grande,837,-20.4640173,-54.6162947
-South America,Brazil,Campos dos Goytacazes,436,-21.7546,-41.3242
-South America,Brazil,Caruaru,305,-8.2829702,-35.9722852
-South America,Brazil,Cascavel,292,-24.9554996,-53.4560544
-South America,Brazil,Caxias Do Sul,452,-29.1685045,-51.1796385
-South America,Brazil,Cuiabá,571,-15.5986686,-56.0991301
-South America,Brazil,Curitiba,3399,-25.4295963,-49.2712724
-South America,Brazil,Feira De Santana,556,-12.2578934,-38.9598047
-South America,Brazil,Florianópolis,1124,-27.5973002,-48.5496098
-South America,Brazil,Fortaleza,3800,-3.7304512,-38.5217989
-South America,Brazil,Franca,333,-20.5381768,-47.4009795
-South America,Brazil,Goiânia,2357,-16.680882,-49.2532691
-South America,Brazil,Grande São Luís,1410,-3.0212185,-44.0020057
-South America,Brazil,Grande Vitória,1877,-20.2886158,-40.3408156
-South America,Brazil,João Pessoa,1289,-7.1215981,-34.882028
-South America,Brazil,Joinville,1209,-26.3044898,-48.8486726
-South America,Brazil,Juazeiro Do Norte,419,-7.2153453,-39.3153336
-South America,Brazil,Juiz De Fora,543,-21.7609533,-43.3501129
-South America,Brazil,Jundiaí,622,-23.1887668,-46.884506
-South America,Brazil,Londrina,808,-23.3112878,-51.1595023
-South America,Brazil,Macapá,432,0.0401529,-51.0569588
-South America,Brazil,Maceió,1240,-9.6476843,-35.7339264
-South America,Brazil,Manaus,2019,-3.1316333,-59.9825041
-South America,Brazil,Maringá,384,-23.425269,-51.9382078
-South America,Brazil,Montes Claros,371,-16.7273538,-43.8717676
-South America,Brazil,Natal,1292,-5.805398,-35.2080905
-South America,Brazil,Pelotas,317,-31.7699736,-52.3410161
-South America,Brazil,Petrolina,427,-9.3817334,-40.4968875
-South America,Brazil,Piracicaba,379,-22.7398075,-47.66800925
-South America,Brazil,Ponta Grossa,327,-25.0891685,-50.1601812
-South America,Brazil,Pôrto Alegre,3998,-30.0324999,-51.2303767
-South America,Brazil,Pôrto Velho,448,-8.7494525,-63.8735438
-South America,Brazil,Recife,3845,-8.0584933,-34.8848193
-South America,Brazil,Ribeirão Preto,656,-21.1776315,-47.8100983
-South America,Brazil,Rio Branco,339,-9.9765362,-67.8220778
-South America,Brazil,Rio de Janeiro,12941,-22.9110137,-43.2093727
-South America,Brazil,Salvador,3594,-12.9822499,-38.4812772
-South America,Brazil,São José do Rio Preto,411,-20.8125851,-49.3804212
-South America,Brazil,São José dos Campos,665,-23.1867782,-45.8854538
-South America,Brazil,São Paulo,20883,-1.2043218,-47.1583944
-South America,Brazil,Sorocaba,729,-23.5003451,-47.4582864
-South America,Brazil,Taubaté,293,-23.031448,-45.5612792
-South America,Brazil,Teresina,962,-5.0874608,-42.8049571
-South America,Brazil,Uberaba,311,-19.750833,-47.936666
-South America,Brazil,Uberlândia,636,-18.9188041,-48.2767837
-South America,Brazil,Vale do Aço,498,-19.4533102,-42.59363808
-South America,Brazil,Vitória da Conquista,301,-14.8567487,-40.8414804
-South America,Brazil,Volta Redonda,440,-22.521856,-44.1040128
-South America,Chile,Antofagasta,402,-23.6041314,-69.0842783
-South America,Chile,Concepción,818,-36.8270795,-73.0502399
-South America,Chile,La Serena-Coquimbo,427,-29.902631,-71.2520253
-South America,Chile,Santiago,6523,-33.4377756,-70.6504502
-South America,Chile,Temuco,320,-38.7362611,-72.590546
-South America,Chile,Valparaíso,937,-33.0458456,-71.6196749
-South America,Colombia,Armenia,382,4.49197615,-75.74135085
-South America,Colombia,Barranquilla,2081,11.0101922,-74.82317941
-South America,Colombia,Bogotá,9708,4.6533816,-74.0836333
-South America,Colombia,Bucaramanga,1208,7.16698415,-73.1047294
-South America,Colombia,Buenaventura,395,3.8881929,-77.0738324
-South America,Colombia,Cali,2573,3.4519238,-76.5328732
-South America,Colombia,Cartagena,997,10.4265566,-75.5441671
-South America,Colombia,Cúcuta,858,7.8971458,-72.5080387
-South America,Colombia,Ibagué,550,4.4386033,-75.2108857
-South America,Colombia,Manizales,429,5.0668907,-75.5066661
-South America,Colombia,Medellín,3735,6.2443382,-75.573553
-South America,Colombia,Monteria,379,8.7509361,-75.8786806
-South America,Colombia,Neiva,339,3.03325535,-75.27943028
-South America,Colombia,Pasto,366,1.2140275,-77.2785096
-South America,Colombia,Pereira,566,4.8143159,-75.6946778
-South America,Colombia,Santa Marta,481,11.2320944,-74.1950916
-South America,Colombia,Valledupar,445,10.4651733,-73.2529512
-South America,Colombia,Villavicencio,481,4.11145945,-73.49678363
-South America,Ecuador,Cuenca,371,-2.8974072,-79.0041726
-South America,Ecuador,Guayaquil,2738,-2.1900563,-79.8868741
-South America,Ecuador,Quito,1734,-0.2201641,-78.5123274
-South America,Ecuador,Santo Domingo,310,-0.3401645,-79.17315197
-South America,Paraguay,Asunción,2967,-25.2800459,-57.6343814
-South America,Paraguay,Ciudad del Este,294,-25.5169015,-54.6168645
-South America,Peru,Arequipa,858,-16.3988667,-71.5369607
-South America,Peru,Chiclayo,593,-6.7716146,-79.8387175
-South America,Peru,Chimbote,368,-9.0744966,-78.593609
-South America,Peru,Cusco,420,-13.5170887,-71.9785356
-South America,Peru,Huancayo,361,-12.068098,-75.2100953
-South America,Peru,Iquitos,430,-3.749365,-73.2444145
-South America,Peru,Lima,9813,-12.0621065,-77.0365256
-South America,Peru,Piura,435,-5,-80.333333
-South America,Peru,Tacna,288,-18.01386,-70.2511032
-South America,Peru,Trujillo,791,-8.1116778,-79.0287742
-South America,Uruguay,Montevideo,1707,-34.9058916,-56.1913095
-South America,Venezuela,Acarigua-Aruare,309,9.550209019,-69.19039125
-South America,Venezuela,Barcelona-Puerto La Cruz,735,10.1824332,-64.65890932
-South America,Venezuela,Barinas,333,8.1739775,-69.97555523
-South America,Venezuela,Barquisimeto,1145,10.0774374,-69.3222293
-South America,Venezuela,Cabimas,523,10.395075,-71.4414049
-South America,Venezuela,Caracas,2920,10.5060934,-66.9146008
-South America,Venezuela,Ciudad Bolivar,375,8.1028532,-63.5469562
-South America,Venezuela,Ciudad Guayana,829,8.3223763,-62.6896622
-South America,Venezuela,Cumana,358,10.4495706,-64.1578046
-South America,Venezuela,Guarenas-Guatire,397,10.4742916,-66.625708
-South America,Venezuela,Maracaibo,2051,10.6498095,-71.6443596
-South America,Venezuela,Maracay,1134,10.2375144,-67.5890216
-South America,Venezuela,Maturin,571,9.7422774,-63.1888854
-South America,Venezuela,Merida,324,8.5816963,-71.1658075
-South America,Venezuela,San Cristóbal,444,7.7756663,-72.2214154
-South America,Venezuela,Valencia,1777,10.170026,-68.0003987
+﻿Region,Country,City,Pop,latitude,longitude,,,,
+Caribbean,Cuba,Camaguey,304,21.3791765,-77.9183681,,,,
+Caribbean,Cuba,La Habana,2124,23.135305,-82.3589631,,,,
+Caribbean,Cuba,Santiago de Cuba,431,20.0214637,-75.8294928,,,,
+Caribbean,Dominican Republic,Santiago,626,19.4503932,-70.6909047,,,,
+Caribbean,Dominican Republic,Santo Domingo,2945,18.4801972,-69.942111,,,,
+Caribbean,Haiti,Port-au-Prince,2439,18.547327,-72.3395928,,,,
+Caribbean,Jamaica,Kingston,587,17.9712148,-76.7928128,,,,
+Caribbean,Trinidad & Tobago,Port of Spain,545,10.6572678,-61.5180173,,,,
+Central America,Costa Rica,Alajuela,280,10.45233165,-84.46632843,,,,
+Central America,Costa Rica,Heredia,326,10.3767813,-84.01397214,,,,
+Central America,Costa Rica,San José,1297,9.9325427,-84.0795782,,,,
+Central America,El Salvador,San Salvador,1099,13.6989939,-89.1914249,,,,
+Central America,Guatemala,Ciudad de Guatemala,2738,14.6424667,-90.5131361,,,,
+Central America,Honduras,San Pedro Sula,767,15.49363865,-88.00776696,,,,
+Central America,Honduras,Tegucigalpa,1233,14.1057433,-87.2040052,,,,
+Central America,Mexico,Acapulco de Juárez,920,16.8680495,-99.8940182,,,,
+Central America,Mexico,Aguascalientes,1017,22.0000001,-102.5000001,,,,
+Central America,Mexico,Cancún,802,21.1618955,-86.8514988,,,,
+Central America,Mexico,Celaya,640,20.521788,-100.8140458,,,,
+Central America,Mexico,Chihuahua,950,28.5000001,-106.0000001,,,,
+Central America,Mexico,Ciudad de México,21340,19.4326296,-99.1331785,,,,
+Central America,Mexico,Ciudad Juárez,1423,31.7372575,-106.485655,,,,
+Central America,Mexico,Ciudad Obregón,334,27.4846619,-109.9337782,,,,
+Central America,Mexico,Ciudad Victoria,333,23.7389846,-99.1441352,,,,
+Central America,Mexico,Coatzacoalcos,371,18.1396787,-94.4501731,,,,
+Central America,Mexico,Colima,371,19.166667,-104,,,,
+Central America,Mexico,Córdoba,334,18.8944704,-96.9352891,,,,
+Central America,Mexico,Cuautla Morelos,474,18.8290118,-98.9432244,,,,
+Central America,Mexico,Cuernavaca,998,18.9218274,-99.2342282,,,,
+Central America,Mexico,Culiacán,754,24.7978965,-107.393395,,,,
+Central America,Mexico,Durango,573,24.833333,-104.833333,,,,
+Central America,Mexico,Ensenada,306,31.8658887,-116.602983,,,,
+Central America,Mexico,Guadalajara,4796,20.6720375,-103.338396,,,,
+Central America,Mexico,Hermosillo,789,28.96893455,-111.4473169,,,,
+Central America,Mexico,Irapuato,416,20.6758761,-101.3521052,,,,
+Central America,Mexico,La Laguna,1313,20.443863,-97.44505868,,,,
+Central America,Mexico,León de los Aldamas,1714,21.1315594,-101.6746905,,,,
+Central America,Mexico,Los Mochis,284,25.7928058,-108.990188,,,,
+Central America,Mexico,Matamoros,525,25.8810158,-97.5064866,,,,
+Central America,Mexico,Mazatlán,417,23.2035785,-106.4208391,,,,
+Central America,Mexico,Mérida,1064,20.9670759,-89.6237402,,,,
+Central America,Mexico,Mexicali,1026,32.6405247,-115.474899,,,,
+Central America,Mexico,Minatitlán,378,17.992773,-94.5567103,,,,
+Central America,Mexico,Monclova,339,26.8999988,-101.4171173,,,,
+Central America,Mexico,Monterrey,4478,25.6802019,-100.315258,,,,
+Central America,Mexico,Morelia,888,19.7027116,-101.1923818,,,,
+Central America,Mexico,Nuevo Laredo,414,27.4930466,-99.5074055,,,,
+Central America,Mexico,Oaxaca de Juárez,655,17.0604663,-96.7253575,,,,
+Central America,Mexico,Orizaba,451,18.8497366,-97.1060062,,,,
+Central America,Mexico,Pachuca de Soto,570,20.1165413,-98.7413535,,,,
+Central America,Mexico,Poza Rica de Hidalgo,538,20.53765745,-97.4451248,,,,
+Central America,Mexico,Puebla,2955,18.833333,-98,,,,
+Central America,Mexico,Puerto Vallarta,444,20.6407176,-105.220306,,,,
+Central America,Mexico,Querétaro,1214,20.8052225,-99.8837376,,,,
+Central America,Mexico,Reynosa,810,26.0907673,-98.2788191,,,,
+Central America,Mexico,Saltillo,901,25.4230425,-100.9927509,,,,
+Central America,Mexico,San Luis Potosí,1126,22.5000001,-100.4949145,,,,
+Central America,Mexico,Tampico,928,22.2157619,-97.8577713,,,,
+Central America,Mexico,Tehuacán,319,18.4599877,-97.3903616,,,,
+Central America,Mexico,Tepic,485,21.5119156,-104.8915889,,,,
+Central America,Mexico,Tijuana,1939,32.5317397,-117.019529,,,,
+Central America,Mexico,Tlaxcala,546,19.416667,-98.166667,,,,
+Central America,Mexico,Toluca de Lerdo,2189,19.292545,-99.6569007,,,,
+Central America,Mexico,Tuxtla Gutierrez,763,16.753801,-93.115959,,,,
+Central America,Mexico,Uruapán,296,19.4060961,-102.0343072,,,,
+Central America,Mexico,Veracruz,864,19.333333,-96.666667,,,,
+Central America,Mexico,Villahermosa,825,17.9884657,-92.9366326,,,,
+Central America,Mexico,Xalapa,719,19.5408338,-96.9146374,,,,
+Central America,Mexico,Zacatecas,338,23.0823582,-103.2085698,,,,
+Central America,Nicaragua,Managua,1027,12.1544035,-86.2737642,,,,
+Central America,Panama,Ciudad de Panamá,1673,8.9714493,-79.5341802,,,,
+South America,Argentina,Bahia Blanca,307,-38.7176522,-62.2654871,,,,
+South America,Argentina,Buenos Aires,14706,-34.6037181,-58.38153,,,,
+South America,Argentina,Córdoba,1514,-31.4166867,-64.1834193,,,,
+South America,Argentina,Corrientes,381,-28.99565115,-57.81245797,,,,
+South America,Argentina,La Plata,834,-34.9206797,-57.9537638,,,,
+South America,Argentina,Mar Del Plata,635,-37.4500273,-61.939304,,,,
+South America,Argentina,Mendoza,1075,-34.78709305,-68.43818677,,,,
+South America,Argentina,Neuquén-Plottier-Cipolletti,373,-38.94809058,-68.22978918,,,,
+South America,Argentina,Posadas,352,-27.4035083,-55.94971181,,,,
+South America,Argentina,Resistencia,408,-27.6048829,-59.19320025,,,,
+South America,Argentina,Rosario,1423,-32.9593609,-60.6617024,,,,
+South America,Argentina,Salta,622,-25.1076701,-64.3494964,,,,
+South America,Argentina,San Juan,516,-30.7054363,-69.1988222,,,,
+South America,Argentina,San Miguel de Tucumán,913,-26.8303703,-65.2038133,,,,
+South America,Argentina,San Salvador de Jujuy,337,-24.1852569,-65.2994789,,,,
+South America,Argentina,Santa Fe,527,-30.3154739,-61.1645076,,,,
+South America,Argentina,Santiago Del Estero,404,-27.6431016,-63.5408542,,,,
+South America,Bolivia,Cochabamba,1136,-17.3936114,-66.1568983,,,,
+South America,Bolivia,La Paz,1745,-16.4955455,-68.1336229,,,,
+South America,Bolivia,Oruro,282,-18.666667,-67.666667,,,,
+South America,Bolivia,Santa Cruz,1532,-17.333333,-61.5,,,,
+South America,Brazil,Anápolis,357,-16.3332828,-48.9525756,,,,
+South America,Brazil,Aracaju,909,-10.9162061,-37.0774655,,,,
+South America,Brazil,Baixada Santista,1779,-24.04565585,-46.70645235,,,,
+South America,Brazil,Bauru,357,-22.3218102,-49.0705863,,,,
+South America,Brazil,Belém,2180,-1.45056,-48.4682453,,,,
+South America,Brazil,Belo Horizonte,5754,-19.9227318,-43.9450948,,,,
+South America,Brazil,Blumenau,321,-26.9195567,-49.0658025,,,,
+South America,Brazil,Boa Vista,310,2.8208478,-60.6719582,,,,
+South America,Brazil,Brasília,4168,-10.3333333,-53.2,,,,
+South America,Brazil,Campina Grande,384,-7.2246743,-35.8771292,,,,
+South America,Brazil,Campinas,3047,-22.9056391,-47.059564,,,,
+South America,Brazil,Campo Grande,837,-20.4640173,-54.6162947,,,,
+South America,Brazil,Campos dos Goytacazes,436,-21.7546,-41.3242,,,,
+South America,Brazil,Caruaru,305,-8.2829702,-35.9722852,,,,
+South America,Brazil,Cascavel,292,-24.9554996,-53.4560544,,,,
+South America,Brazil,Caxias Do Sul,452,-29.1685045,-51.1796385,,,,
+South America,Brazil,Cuiabá,571,-15.5986686,-56.0991301,,,,
+South America,Brazil,Curitiba,3399,-25.4295963,-49.2712724,,,,
+South America,Brazil,Feira De Santana,556,-12.2578934,-38.9598047,,,,
+South America,Brazil,Florianópolis,1124,-27.5973002,-48.5496098,,,,
+South America,Brazil,Fortaleza,3800,-3.7304512,-38.5217989,,,,
+South America,Brazil,Franca,333,-20.5381768,-47.4009795,,,,
+South America,Brazil,Goiânia,2357,-16.680882,-49.2532691,,,,
+South America,Brazil,Grande São Luís,1410,-3.0212185,-44.0020057,,,,
+South America,Brazil,Grande Vitória,1877,-20.2886158,-40.3408156,,,,
+South America,Brazil,João Pessoa,1289,-7.1215981,-34.882028,,,,
+South America,Brazil,Joinville,1209,-26.3044898,-48.8486726,,,,
+South America,Brazil,Juazeiro Do Norte,419,-7.2153453,-39.3153336,,,,
+South America,Brazil,Juiz De Fora,543,-21.7609533,-43.3501129,,,,
+South America,Brazil,Jundiaí,622,-23.1887668,-46.884506,,,,
+South America,Brazil,Londrina,808,-23.3112878,-51.1595023,,,,
+South America,Brazil,Macapá,432,0.0401529,-51.0569588,,,,
+South America,Brazil,Maceió,1240,-9.6476843,-35.7339264,,,,
+South America,Brazil,Manaus,2019,-3.1316333,-59.9825041,,,,
+South America,Brazil,Maringá,384,-23.425269,-51.9382078,,,,
+South America,Brazil,Montes Claros,371,-16.7273538,-43.8717676,,,,
+South America,Brazil,Natal,1292,-5.805398,-35.2080905,,,,
+South America,Brazil,Pelotas,317,-31.7699736,-52.3410161,,,,
+South America,Brazil,Petrolina,427,-9.3817334,-40.4968875,,,,
+South America,Brazil,Piracicaba,379,-22.7398075,-47.66800925,,,,
+South America,Brazil,Ponta Grossa,327,-25.0891685,-50.1601812,,,,
+South America,Brazil,Pôrto Alegre,3998,-30.0324999,-51.2303767,,,,
+South America,Brazil,Pôrto Velho,448,-8.7494525,-63.8735438,,,,
+South America,Brazil,Recife,3845,-8.0584933,-34.8848193,,,,
+South America,Brazil,Ribeirão Preto,656,-21.1776315,-47.8100983,,,,
+South America,Brazil,Rio Branco,339,-9.9765362,-67.8220778,,,,
+South America,Brazil,Rio de Janeiro,12941,-22.9110137,-43.2093727,,,,
+South America,Brazil,Salvador,3594,-12.9822499,-38.4812772,,,,
+South America,Brazil,São José do Rio Preto,411,-20.8125851,-49.3804212,,,,
+South America,Brazil,São José dos Campos,665,-23.1867782,-45.8854538,,,,
+South America,Brazil,São Paulo,20883,-1.2043218,-47.1583944,,,,
+South America,Brazil,Sorocaba,729,-23.5003451,-47.4582864,,,,
+South America,Brazil,Taubaté,293,-23.031448,-45.5612792,,,,
+South America,Brazil,Teresina,962,-5.0874608,-42.8049571,,,,
+South America,Brazil,Uberaba,311,-19.750833,-47.936666,,,,
+South America,Brazil,Uberlândia,636,-18.9188041,-48.2767837,,,,
+South America,Brazil,Vale do Aço,498,-19.4533102,-42.59363808,,,,
+South America,Brazil,Vitória da Conquista,301,-14.8567487,-40.8414804,,,,
+South America,Brazil,Volta Redonda,440,-22.521856,-44.1040128,,,,
+South America,Chile,Antofagasta,402,-23.6041314,-69.0842783,,,,
+South America,Chile,Concepción,818,-36.8270795,-73.0502399,,,,
+South America,Chile,La Serena-Coquimbo,427,-29.902631,-71.2520253,,,,
+South America,Chile,Santiago,6523,-33.4377756,-70.6504502,,,,
+South America,Chile,Temuco,320,-38.7362611,-72.590546,,,,
+South America,Chile,Valparaíso,937,-33.0458456,-71.6196749,,,,
+South America,Colombia,Armenia,382,4.49197615,-75.74135085,,,,
+South America,Colombia,Barranquilla,2081,11.0101922,-74.82317941,,,,
+South America,Colombia,Bogotá,9708,4.6533816,-74.0836333,,,,
+South America,Colombia,Bucaramanga,1208,7.16698415,-73.1047294,,,,
+South America,Colombia,Buenaventura,395,3.8881929,-77.0738324,,,,
+South America,Colombia,Cali,2573,3.4519238,-76.5328732,,,,
+South America,Colombia,Cartagena,997,10.4265566,-75.5441671,,,,
+South America,Colombia,Cúcuta,858,7.8971458,-72.5080387,,,,
+South America,Colombia,Ibagué,550,4.4386033,-75.2108857,,,,
+South America,Colombia,Manizales,429,5.0668907,-75.5066661,,,,
+South America,Colombia,Medellín,3735,6.2443382,-75.573553,,,,
+South America,Colombia,Monteria,379,8.7509361,-75.8786806,,,,
+South America,Colombia,Neiva,339,3.03325535,-75.27943028,,,,
+South America,Colombia,Pasto,366,1.2140275,-77.2785096,,,,
+South America,Colombia,Pereira,566,4.8143159,-75.6946778,,,,
+South America,Colombia,Santa Marta,481,11.2320944,-74.1950916,,,,
+South America,Colombia,Valledupar,445,10.4651733,-73.2529512,,,,
+South America,Colombia,Villavicencio,481,4.11145945,-73.49678363,,,,
+South America,Ecuador,Cuenca,371,-2.8974072,-79.0041726,,,,
+South America,Ecuador,Guayaquil,2738,-2.1900563,-79.8868741,,,,
+South America,Ecuador,Quito,1734,-0.2201641,-78.5123274,,,,
+South America,Ecuador,Santo Domingo,310,-0.3401645,-79.17315197,,,,
+South America,Paraguay,Asunción,2967,-25.2800459,-57.6343814,,,,
+South America,Paraguay,Ciudad del Este,294,-25.5169015,-54.6168645,,,,
+South America,Peru,Arequipa,858,-16.3988667,-71.5369607,,,,
+South America,Peru,Chiclayo,593,-6.7716146,-79.8387175,,,,
+South America,Peru,Chimbote,368,-9.0744966,-78.593609,,,,
+South America,Peru,Cusco,420,-13.5170887,-71.9785356,,,,
+South America,Peru,Huancayo,361,-12.068098,-75.2100953,,,,
+South America,Peru,Iquitos,430,-3.749365,-73.2444145,,,,
+South America,Peru,Lima,9813,-12.0621065,-77.0365256,,,,
+South America,Peru,Piura,435,-5,-80.333333,,,,
+South America,Peru,Tacna,288,-18.01386,-70.2511032,,,,
+South America,Peru,Trujillo,791,-8.1116778,-79.0287742,,,,
+South America,Uruguay,Montevideo,1707,-34.9058916,-56.1913095,,,,
+South America,Venezuela,Acarigua-Aruare,309,9.550209019,-69.19039125,,,,
+South America,Venezuela,Barcelona-Puerto La Cruz,735,10.1824332,-64.65890932,,,,
+South America,Venezuela,Barinas,333,8.1739775,-69.97555523,,,,
+South America,Venezuela,Barquisimeto,1145,10.0774374,-69.3222293,,,,
+South America,Venezuela,Cabimas,523,10.395075,-71.4414049,,,,
+South America,Venezuela,Caracas,2920,10.5060934,-66.9146008,,,,
+South America,Venezuela,Ciudad Bolivar,375,8.1028532,-63.5469562,,,,
+South America,Venezuela,Ciudad Guayana,829,8.3223763,-62.6896622,,,,
+South America,Venezuela,Cumana,358,10.4495706,-64.1578046,,,,
+South America,Venezuela,Guarenas-Guatire,397,10.4742916,-66.625708,,,,
+South America,Venezuela,Maracaibo,2051,10.6498095,-71.6443596,,,,
+South America,Venezuela,Maracay,1134,10.2375144,-67.5890216,,,,
+South America,Venezuela,Maturin,571,9.7422774,-63.1888854,,,,
+South America,Venezuela,Merida,324,8.5816963,-71.1658075,,,,
+South America,Venezuela,San Cristóbal,444,7.7756663,-72.2214154,,,,
+South America,Venezuela,Valencia,1777,10.170026,-68.0003987,,,,
