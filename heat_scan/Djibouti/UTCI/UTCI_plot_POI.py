@@ -62,6 +62,9 @@ gs = fig.add_gridspec(1, 2)
 ax1 = fig.add_subplot(gs[0, 0])
 ax2 = fig.add_subplot(gs[0, 1])
 
+# assign empty dict for stats
+array_dict = {}
+
 for poifile in poifiles:
     poi = pd.read_csv(poifile, sep=' ', header=None, skiprows=1, encoding="ISO-8859-1")
     poi.columns = poi_columns
@@ -73,6 +76,9 @@ for poifile in poifiles:
     # temp_utci = poi.UTCI.to_numpy()[temp_alt > 0]
     temp_label = poifile.split('\\')[-1].split('.')[0]
     # Colors, markers and lines for winter
+
+
+
     if 'djf' in temp_label:
         if 'average' in temp_label:
             temp_line = '-'
@@ -128,6 +134,8 @@ for poifile in poifiles:
                      marker=temp_mark, alpha=1)
 
 
+        array_dict[temp_label] = temp_utci
+
 
     # Winter days
     else:
@@ -151,6 +159,21 @@ for poifile in poifiles:
         if 'tree' in temp_label and 'hot' in temp_label:
             ax2.plot(temp_hour, temp_utci, label=labelDict_[temp_label], color=temp_color, linestyle=temp_line,
                      marker=temp_mark, alpha=1)
+
+
+        array_dict[temp_label] = temp_utci
+
+
+df = pd.DataFrame.from_dict(array_dict)
+
+def percentage_change(col1,col2):
+    return col2.sub(col1).div(col1).mul(100)
+
+print('mean per diff between tree and open, summer, historical: ', percentage_change(df['Balbala_tree_average_jja'], df['Balbala_open_average_jja']).mean())
+print('mean per diff between tree and open, summer, future: ', percentage_change(df['Balbala_tree_hot_jja'], df['Balbala_open_hot_jja']).mean())
+
+print('mean per diff between tree and open, winter, historical: ', percentage_change(df['Balbala_tree_average_djf'], df['Balbala_open_average_djf']).mean())
+print('mean per diff between tree and open, winter, future: ', percentage_change(df['Balbala_tree_hot_djf'], df['Balbala_open_hot_djf']).mean())
 
 ax1.set_ylabel('Universal Thermal Climate Index ($^\circ$C)')
 ax1.set_ylim(10, 50)
